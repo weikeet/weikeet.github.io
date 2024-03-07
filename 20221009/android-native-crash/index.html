@@ -1,0 +1,1694 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="Android Native 异常捕获与解析, Weikeet">
+    <meta name="description" content="降りしきる強い雨, 描いた夢の果て">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-85513822-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+    gtag('config', 'UA-85513822-1');
+</script>
+
+
+    <title>Android Native 异常捕获与解析 | Weikeet</title>
+    <link rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/css/my.css">
+
+    <script src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 5.4.2">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="Weikeet" type="application/atom+xml">
+</head>
+
+
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Weikeet</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Weikeet</div>
+        <div class="logo-desc">
+            
+            降りしきる強い雨, 描いた夢の果て
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+<script src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/medias/featureimages/2642047_72684073.png')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">Android Native 异常捕获与解析</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Android/">
+                                <span class="chip bg-color">Android</span>
+                            </a>
+                        
+                            <a href="/tags/C/">
+                                <span class="chip bg-color">C++</span>
+                            </a>
+                        
+                            <a href="/tags/NDK/">
+                                <span class="chip bg-color">NDK</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2022-10-09
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2022-10-09
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    2.1k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    9 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/prism/prism.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h2 id="Android-native-so"><a href="#Android-native-so" class="headerlink" title="Android native so"></a>Android native so</h2><p>NativeCrash 即 Native Exception, 是 <code>C/C++</code> 运行过程中产生的错误，Native Exception 不同于普通的 Java Exception，普通的 logcat 无法直接还原成可阅读的堆栈，一般没有源码也无法调试。</p>
+<p>普通的 logcat 只能看到类似这样的信息：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">A/libc: Fatal signal <span class="token number">5</span> <span class="token punctuation">(</span>SIGTRAP<span class="token punctuation">)</span>, code <span class="token number">1</span> <span class="token punctuation">(</span>TRAP_BRKPT<span class="token punctuation">)</span>, fault addr 0x72a275a838 <span class="token keyword">in</span> tid <span class="token number">19185</span> <span class="token punctuation">(</span>xcrash.sample<span class="token punctuation">)</span>, pid <span class="token number">19185</span> <span class="token punctuation">(</span>xcrash.sample<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>很难从这些信息分析具体原因，这时就需要从 so 相关信息来看。</p>
+<h3 id="分析-so-组成"><a href="#分析-so-组成" class="headerlink" title="分析 so 组成"></a>分析 so 组成</h3><p>一个完整的 so 由 <code>C/c++</code> 代码加一些 <code>debug</code> 信息组成，这些 debug 信息会记录 so 中所有方法的对照表，就是 <code>方法名</code> 和其 <code>偏移地址</code> 的对应表，也叫做符号表，这种 so &nbsp;也叫做未 strip (没有去掉符号表的)，通常体积会比较大。</p>
+<p>而 release 的 so 都会经过 <code>strip</code> 操作，strip 之后的 so 中的 debug 信息会被剥离，整个 so 的体积也会缩小。</p>
+<p><img src="https://blog-1251678165.cos.ap-chengdu.myqcloud.com/uPic/5MG6LA.jpg" alt="5MG6LA"></p>
+<p>如下可以看到 strip 之前和之后的大小对比：2.9MB (strip) vs 23.6MB (未 strip)</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ <span class="token function">ls</span> <span class="token parameter variable">-l</span>
+-rw-r--r--  <span class="token number">1</span> weiwei  staff   <span class="token number">2867944</span> <span class="token number">10</span>  <span class="token number">8</span> <span class="token number">10</span>:30 libtest-s.so
+-rw-r--r--  <span class="token number">1</span> weiwei  staff  <span class="token number">23614624</span> <span class="token number">10</span>  <span class="token number">8</span> <span class="token number">10</span>:30 libtest.so<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>可以简单将这个 debug 信息理解为 Java 代码混淆中的 mapping 文件，只有拥有这个 mapping 文件才能进行堆栈分析，没有堆栈信息就很难解决发生的异常。</p>
+<p>所以这些 debug 信息很重要，是我们分析 Native Exception 问题的关键信息，那么我们在编译 so 时候务必保留一份未被 strip 的 so 或者剥离后的符号表信息，以供后面问题分析，并且每次编译的 so 都需要保存，一旦产生代码修改重新编译，那么修改前后的符号表信息会无法对应，也无法进行分析。</p>
+<h3 id="查看-so-信息"><a href="#查看-so-信息" class="headerlink" title="查看 so 信息"></a>查看 so 信息</h3><p>在 macOS/Linux 下可以使用 <code>file</code> 命令查看 so 文件信息：<code>stripped</code> 代表是没有 debug 信息的 so, <code>with debug_info</code>,  <code>not stripped</code> 代表包含 debug 信息的 so。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ <span class="token function">file</span> libtest.so
+libtest.so: ELF <span class="token number">64</span>-bit LSB shared object, ARM aarch64, version <span class="token number">1</span> <span class="token punctuation">(</span>SYSV<span class="token punctuation">)</span>, dynamically linked, BuildID<span class="token punctuation">[</span>sha1<span class="token punctuation">]</span><span class="token operator">=</span>9a28e26533f985cf3ae8733ccd0c2cae8cc49fb3, with debug_info, not stripped
+
+$ <span class="token function">file</span> libtest-s.so
+libtest-s.so: ELF <span class="token number">64</span>-bit LSB shared object, ARM aarch64, version <span class="token number">1</span> <span class="token punctuation">(</span>SYSV<span class="token punctuation">)</span>, dynamically linked, BuildID<span class="token punctuation">[</span>sha1<span class="token punctuation">]</span><span class="token operator">=</span>9a28e26533f985cf3ae8733ccd0c2cae8cc49fb3, stripped<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>下面看下如何获取两种状态下的 so。</p>
+<h3 id="获取-so-文件"><a href="#获取-so-文件" class="headerlink" title="获取 so 文件"></a>获取 so 文件</h3><p>无论是使用 mk 或者 Cmake 编译的方式都会同时输出 strip 和未 strip 的 so，下面文件树列表是 Cmake 编译 so 产生的两种对应的 so。</p>
+<p>我们执行 release 任务，例如：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ ./gradlew libTest:assembleRelease<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>执行完成后可以在 <code>libTest/build/intermediates </code> 目录下找到两种对应的 so: (下面输出结果对应的是 AGP 7.0+)</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># weiwei in ~/NativeDemo/libTest/build/intermediates</span>
+$ tree <span class="token parameter variable">-L</span> <span class="token number">2</span>
+├── cmake
+│   └── release
+│       └── obj
+│           ├── arm64-v8a
+│           │   ├── libtest.so
+│           └── armeabi-v7a
+│               ├── libtest.so
+├── merged_native_libs
+│   └── release
+│       └── out
+│           └── lib
+│               ├── arm64-v8a
+│               │   ├── libtest.so
+│               └── armeabi-v7a
+│                   ├── libtest.so
+├── stripped_native_libs
+│   └── release
+│       └── out
+│           └── lib
+│               ├── arm64-v8a
+│               │   ├── libtest.so
+│               └── armeabi-v7a
+│                   ├── libtest.so<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li><code>cmake</code> 和 <code>merged_native_libs</code> 目录下的 so 文件都是未做 strip 处理的，我们需要保存好这个文件。</li>
+<li><code>stripped_native_libs</code> 目录下则是经过 strip 处理的 so 文件，会被打到最终的 apk 当中。</li>
+</ul>
+<p>保存未做 strip 的 so 文件，最好是在 ci 构建新的 Library 或者 Application 时自动将其保存的特定位置以便于后续分析使用。</p>
+<p>另外也可以通过 Android sdk 提供的工具 <code>aarch64-linux-android-strip</code> 手动进行 strip，工具位于 <code>$HOME/Library/Android/sdk/ndk/21.4.7075529/toolchains</code> 目录下 (自行选择可用的 NDK 版本)</p>
+<p>在 toolchains 目录下通过 <code>fzf</code> 搜索 <code>-android-strip</code> 可以得到如下</p>
+<p><img src="https://blog-1251678165.cos.ap-chengdu.myqcloud.com/ylwbKV.png" alt="ylwbKV"></p>
+<p>然后可以进入 <code>aarch64-linux-android-4.9/prebuilt/darwin-x86_64/bin/</code> 目录，使用如下命令可以直接将 debug 的 so 进行 strip 处理</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">aarch64-linux-android-strip --strip-all libtest.so<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>使用 Cmake 进行编译的时候，可以增加如下命令，可以直接编译出 strip 的 so</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -s")</span>
+<span class="token comment">#set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -s")</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>使用 mk 文件进行编译的时候，可以增加如下命令，也可以直接编译出 strip 的 so</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token parameter variable">-fvisibility</span><span class="token operator">=</span>hidden<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="异常捕获解析"><a href="#异常捕获解析" class="headerlink" title="异常捕获解析"></a>异常捕获解析</h2><p>可以参考 <a target="_blank" rel="noopener" href="https://juejin.cn/post/6932757164003950599">Android NativeCrash 捕获与解析</a> 使用 logcat, DropBox, Breakpad 都可以获取到 Native exception 日志，但都存在不少问题。</p>
+<ul>
+<li>logcat 的缺点是只能测试调试过程中使用，正式环境无法使用。</li>
+<li>DropBox 的缺点是只适用于系统应用，普通应用使用困难。</li>
+<li>Breakpad 是 Google 开源的，非常成熟，但使用比较麻烦，而且代码量很大。</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://github.com/iqiyi/xCrash">iqiyi/xCrash</a> 是爱奇艺开源的捕获 Java exception, Native exception, ANR 的库，不需要任何 root 权限或系统权限，很适合用来捕获 Native exception，具体使用和原理可以参考项目中的<a target="_blank" rel="noopener" href="https://github.com/iqiyi/xCrash/blob/master/README.zh-CN.md">文档</a>。</p>
+<p>当异常发生时， xCrash 捕获异常并保存到初始化设置的目录，Native exception 示例如下（完成可以参考 <a target="_blank" rel="noopener" href="https://github.com/iqiyi/xCrash/blob/master/doc/tombstone_native_arm64-v8a.txt">native crash (arm64-v8a)</a>）</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">*** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
+
+Tombstone maker: <span class="token string">'xCrash 2.4.6'</span>
+
+Crash type: <span class="token string">'native'</span>
+
+Start time: <span class="token string">'2019-10-12T03:18:02.523+0800'</span>
+
+Crash time: <span class="token string">'2019-10-12T03:18:21.127+0800'</span>
+
+App ID: <span class="token string">'xcrash.sample'</span>
+
+App version: <span class="token string">'1.2.3-beta456-patch789'</span>
+
+Rooted: <span class="token string">'No'</span>
+
+API level: <span class="token string">'29'</span>
+
+OS version: <span class="token string">'10'</span>
+
+Kernel version: <span class="token string">'Linux version 3.18.137-g382d7256ce44 #1 SMP PREEMPT Fri Jul 12 06:00:07 UTC 2019 (aarch64)'</span>
+
+ABI list: <span class="token string">'arm64-v8a,armeabi-v7a,armeabi'</span>
+
+Manufacturer: <span class="token string">'Google'</span>
+
+Brand: <span class="token string">'google'</span>
+
+Model: <span class="token string">'Pixel'</span>
+
+Build fingerprint: <span class="token string">'google/sailfish/sailfish:10/QP1A.190711.020/5800535:user/release-keys'</span>
+
+ABI: <span class="token string">'arm64'</span>
+
+pid: <span class="token number">20501</span>, tid: <span class="token number">20501</span>, name: xcrash.sample <span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> xcrash.sample <span class="token operator">&lt;&lt;&lt;</span>
+
+signal <span class="token number">11</span> <span class="token punctuation">(</span>SIGSEGV<span class="token punctuation">)</span>, code <span class="token number">1</span> <span class="token punctuation">(</span>SEGV_MAPERR<span class="token punctuation">)</span>, fault addr 0x0
+
+x0 0000000000000003 x1 0000000000000000 x2 000000751128fd60 x3 0000007511290020
+
+x4 000000751128fd60 x5 00000075a26c1708 x6 000000751128fd50 x7 00000075200a59dc
+
+x8 0000000000000000 x9 79fc7e30c0ff4d9e x10 00000000000003e8 x11 0000000000000000
+
+x12 0000000000004100 x13 0000000000000001 x14 0000000000080100 x15 0000000000000000
+
+x16 00000074b9be4d20 x17 00000074b9bcc86c x18 00000075a57fa000 x19 00000075a4f52000
+
+x20 0000000000000000 x21 00000075a4f52000 x22 0000007fe0ef23a0 x23 00000074bb1b62fe
+
+x24 0000000000000004 x25 00000075a5107020 x26 00000075a4f520b0 x27 0000000000000001
+
+x28 0000007fe0ef2130 x29 0000007fe0ef2090
+
+sp 0000007fe0ef2070 lr 00000074b9bcc8cc pc 00000074b9bcc884
+
+backtrace:
+
+<span class="token comment">#00 pc 000000000000b884 /data/app/xcrash.sample-WeCpVYjROKKgYtuzbHflHg==/lib/arm64/libxcrash.so (xc_test_call_4+24)</span>
+
+<span class="token comment">#01 pc 000000000000b8c8 /data/app/xcrash.sample-WeCpVYjROKKgYtuzbHflHg==/lib/arm64/libxcrash.so (xc_test_call_3+24)</span>
+
+<span class="token comment">#02 pc 000000000000b8f8 /data/app/xcrash.sample-WeCpVYjROKKgYtuzbHflHg==/lib/arm64/libxcrash.so (xc_test_call_2+24)</span>
+
+<span class="token comment">#03 pc 000000000000b920 /data/app/xcrash.sample-WeCpVYjROKKgYtuzbHflHg==/lib/arm64/libxcrash.so (xc_test_call_1+16)</span>
+
+<span class="token comment">#04 pc 000000000000b9b4 /data/app/xcrash.sample-WeCpVYjROKKgYtuzbHflHg==/lib/arm64/libxcrash.so (xc_test_crash+124)</span>
+
+<span class="token comment">#05 pc 000000000013f350 /apex/com.android.runtime/lib64/libart.so (art_quick_generic_jni_trampoline+144)</span>
+
+<span class="token comment">#06 pc 00000000001365b8 /apex/com.android.runtime/lib64/libart.so (art_quick_invoke_static_stub+568)</span>
+<span class="token punctuation">..</span>.<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>从捕获到的日志可以看到非常完整的信息：Crash 类型，启动时间，崩溃时间，各种版本信息和设备信息，崩溃的进程和线程，</p>
+<p>从 signal 可以看到崩溃的原因是 <code>fault addr 0x0</code></p>
+<p>具体崩溃的堆栈则是在 <code>backtrace</code> 中，我们可以通过 <code>addr2line</code> 工具配合编译生成的带符号表的 so 文件，找到代码中崩溃的位置</p>
+<p>addr2line 工具位于 <code>$HOME/Library/Android/sdk/ndk/selectVersion/toolchains</code> , 我们在这个目录通过 <code>fzf</code> 搜索 <code>-addr2line</code> ：</p>
+<p><code>~/Library/Android/sdk/ndk/21.4.7075529/toolchains</code> 搜索结果</p>
+<p><img src="https://blog-1251678165.cos.ap-chengdu.myqcloud.com/uPic/8xDTeQ.png" alt="8xDTeQ"></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">aarch64-linux-android-4.9/prebuilt/darwin-x86_64/bin/aarch64-linux-android-addr2line
+arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-addr2line
+
+x86_64-4.9/prebuilt/darwin-x86_64/bin/x86_64-linux-android-addr2line
+x86-4.9/prebuilt/darwin-x86_64/bin/i686-linux-android-addr2line
+
+llvm/prebuilt/darwin-x86_64/bin/aarch64-linux-android-addr2line
+llvm/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-addr2line
+llvm/prebuilt/darwin-x86_64/bin/x86_64-linux-android-addr2line
+llvm/prebuilt/darwin-x86_64/bin/i686-linux-android-addr2line
+llvm/prebuilt/darwin-x86_64/bin/llvm-addr2line<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><code>~/Library/Android/sdk/ndk/23.1.7779620/toolchains</code> 搜索结果</p>
+<p><img src="https://blog-1251678165.cos.ap-chengdu.myqcloud.com/uPic/mO3apY.png" alt="mO3apY"></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">llvm/prebuilt/darwin-x86_64/bin/llvm-addr2line<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>可以看出不能 ndk 版本还是不一样，高版本只有一个 <code>llvm-addr2line</code>, 低版本则存在多个 <code>*-linux-android-addr2line</code></p>
+<p>具体使用方法如下: </p>
+<p>通过日志找到崩溃的 so 文件 (未 strip), 然后执行下面指令，传入 so 文件路径和 backtrace 的堆栈信息</p>
+<pre class="line-numbers language-none"><code class="language-none">addr2line -C -f -e 未strip的so路径 backtrace堆栈信息<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ul>
+<li>-e 表示打印错误地址的对应路径及行数</li>
+<li>-C -f 表示打印错误行数所在的函数名称</li>
+<li>backtrace 堆栈信息可以写多个，使用空格隔开</li>
+<li>addr2line 程序可以使用完整路径或者切换到所在路径使用</li>
+</ul>
+<p>测试 release 的 arm64 so 示例:</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># weiwei in ~/Library/Android/sdk/ndk/21.4.7075529/toolchains/aarch64-linux-android-4.9/prebuilt/darwin-x86_64/bin</span>
+aarch64-linux-android-addr2line <span class="token parameter variable">-e</span> xcrash_lib/build/intermediates/merged_native_libs/release/out/lib/arm64-v8a/libxcrash.so 000000000000b884
+xCrash/xcrash_lib/src/main/cpp/xcrash/xc_test.c:65
+
+<span class="token comment"># 实测 ndk/21.4.7075529: aarch64-linux-android-addr2line, x86_64-linux-android-addr2line, i686-linux-android-addr2line 都是可用的，arm-linux-androideabi-addr2line, llvm-addr2line 则不行</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># weiwei in ~/Library/Android/sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/darwin-x86_64/bin</span>
+llvm-addr2line <span class="token parameter variable">-e</span> xcrash_lib/build/intermediates/merged_native_libs/release/out/lib/arm64-v8a/libxcrash.so 000000000000b884
+xCrash/xcrash_lib/src/main/cpp/xcrash/xc_test.c:65<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>找到异常发生的位置之后就可以从源代码去分析具体异常原因了，如果不方便保存带 debug 信息的 so 文件，可以单独提取出符号表，符号表提取和使用参考：<a target="_blank" rel="noopener" href="https://juejin.cn/post/6932757164003950599#heading-12">Android NativeCrash 捕获与解析# 三、so&nbsp;符号表的提取</a></p>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6932757164003950599">Android NativeCrash 捕获与解析</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/g-WzYF3wWAljok1XjPoo7w">Android 平台 Native 代码的崩溃捕获机制及实现</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/google/breakpad">https://github.com/google/breakpad</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/iqiyi/xCrash">https://github.com/iqiyi/xCrash</a></li>
+</ul>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Weikeet</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://www.blog.weikeet.cc/20221009/android-native-crash/">https://www.blog.weikeet.cc/20221009/android-native-crash/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">Weikeet</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/Android/">
+                                    <span class="chip bg-color">Android</span>
+                                </a>
+                            
+                                <a href="/tags/C/">
+                                    <span class="chip bg-color">C++</span>
+                                </a>
+                            
+                                <a href="/tags/NDK/">
+                                    <span class="chip bg-color">NDK</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/medias/reward/alipay.png" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+        <style>
+    .valine-card {
+        margin: 1.5rem auto;
+    }
+
+    .valine-card .card-content {
+        padding: 20px 20px 5px 20px;
+    }
+
+    #vcomments textarea {
+        box-sizing: border-box;
+        background: url("/medias/comment_bg.png") 100% 100% no-repeat;
+    }
+
+    #vcomments p {
+        margin: 2px 2px 10px;
+        font-size: 1.05rem;
+        line-height: 1.78rem;
+    }
+
+    #vcomments blockquote p {
+        text-indent: 0.2rem;
+    }
+
+    #vcomments a {
+        padding: 0 2px;
+        color: #4cbf30;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    #vcomments img {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+    }
+
+    #vcomments ol li {
+        list-style-type: decimal;
+    }
+
+    #vcomments ol,
+    ul {
+        display: block;
+        padding-left: 2em;
+        word-spacing: 0.05rem;
+    }
+
+    #vcomments ul li,
+    ol li {
+        display: list-item;
+        line-height: 1.8rem;
+        font-size: 1rem;
+    }
+
+    #vcomments ul li {
+        list-style-type: disc;
+    }
+
+    #vcomments ul ul li {
+        list-style-type: circle;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    #vcomments table, th, td {
+        border: 0;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments h1 {
+        font-size: 1.85rem;
+        font-weight: bold;
+        line-height: 2.2rem;
+    }
+
+    #vcomments h2 {
+        font-size: 1.65rem;
+        font-weight: bold;
+        line-height: 1.9rem;
+    }
+
+    #vcomments h3 {
+        font-size: 1.45rem;
+        font-weight: bold;
+        line-height: 1.7rem;
+    }
+
+    #vcomments h4 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    #vcomments h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.4rem;
+    }
+
+    #vcomments h6 {
+        font-size: 1rem;
+        line-height: 1.3rem;
+    }
+
+    #vcomments p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    #vcomments hr {
+        margin: 12px 0;
+        border: 0;
+        border-top: 1px solid #ccc;
+    }
+
+    #vcomments blockquote {
+        margin: 15px 0;
+        border-left: 5px solid #42b983;
+        padding: 1rem 0.8rem 0.3rem 0.8rem;
+        color: #666;
+        background-color: rgba(66, 185, 131, .1);
+    }
+
+    #vcomments pre {
+        font-family: monospace, monospace;
+        padding: 1.2em;
+        margin: .5em 0;
+        background: #272822;
+        overflow: auto;
+        border-radius: 0.3em;
+        tab-size: 4;
+    }
+
+    #vcomments code {
+        font-family: monospace, monospace;
+        padding: 1px 3px;
+        font-size: 0.92rem;
+        color: #e96900;
+        background-color: #f8f8f8;
+        border-radius: 2px;
+    }
+
+    #vcomments pre code {
+        font-family: monospace, monospace;
+        padding: 0;
+        color: #e8eaf6;
+        background-color: #272822;
+    }
+
+    #vcomments pre[class*="language-"] {
+        padding: 1.2em;
+        margin: .5em 0;
+    }
+
+    #vcomments code[class*="language-"],
+    pre[class*="language-"] {
+        color: #e8eaf6;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+
+    #vcomments b,
+    strong {
+        font-weight: bold;
+    }
+
+    #vcomments dfn {
+        font-style: italic;
+    }
+
+    #vcomments small {
+        font-size: 85%;
+    }
+
+    #vcomments cite {
+        font-style: normal;
+    }
+
+    #vcomments mark {
+        background-color: #fcf8e3;
+        padding: .2em;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+</style>
+
+<div class="card valine-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="vcomments" class="card-content" style="display: grid">
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/valine/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/valine/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: 'orsSeN9tLirrMORe4CklaXEN-gzGzoHsz',
+        appKey: 'wOCnGVsLjb2wsCTDhhMvAPCr',
+        notify: 'false' === 'true',
+        verify: 'false' === 'true',
+        visitor: 'true' === 'true',
+        avatar: 'mm',
+        pageSize: '10',
+        lang: 'zh-cn',
+        placeholder: 'just go go'
+    });
+</script>
+
+<!--酷Q推送-->
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/20221210/jetpack-viewmodel-fen-xi/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/medias/featureimages/660788_57135558.jpg" class="responsive-img" alt="Jetpack ViewModel 分析">
+                        
+                        <span class="card-title">Jetpack ViewModel 分析</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-12-10
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Weikeet
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Android/">
+                        <span class="chip bg-color">Android</span>
+                    </a>
+                    
+                    <a href="/tags/Jetpack/">
+                        <span class="chip bg-color">Jetpack</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/20220918/mac-dev-setup/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/medias/featureimages/7640889_76172401.png" class="responsive-img" alt="Mac 开发环境自动部署">
+                        
+                        <span class="card-title">Mac 开发环境自动部署</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-09-18
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Weikeet
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Mac/">
+                        <span class="chip bg-color">Mac</span>
+                    </a>
+                    
+                    <a href="/tags/Shell/">
+                        <span class="chip bg-color">Shell</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2015-2024</span>
+            
+            <span id="year">2015</span>
+            <a href="/about" target="_blank">Weikeet</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+                <span id="sitetime"> Loading ...</span>
+                <script>
+                    var calcSiteTime = function () {
+                        var seconds = 1000;
+                        var minutes = seconds * 60;
+                        var hours = minutes * 60;
+                        var days = hours * 24;
+                        var years = days * 365;
+                        var today = new Date();
+                        var startYear = "2015";
+                        var startMonth = "11";
+                        var startDate = "24";
+                        var startHour = "0";
+                        var startMinute = "0";
+                        var startSecond = "0";
+                        var todayYear = today.getFullYear();
+                        var todayMonth = today.getMonth() + 1;
+                        var todayDate = today.getDate();
+                        var todayHour = today.getHours();
+                        var todayMinute = today.getMinutes();
+                        var todaySecond = today.getSeconds();
+                        var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                        var diff = t2 - t1;
+                        var diffYears = Math.floor(diff / years);
+                        var diffDays = Math.floor((diff / days) - diffYears * 365);
+
+                        // 区分是否有年份.
+                        var language = 'zh-CN';
+                        if (startYear === String(todayYear)) {
+                            document.getElementById("year").innerHTML = todayYear;
+                            var daysTip = 'This site has been running for ' + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                daysTip = '本站已运行 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                daysTip = '本站已運行 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = daysTip;
+                        } else {
+                            document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                            var yearsAndDaysTip = 'This site has been running for ' + diffYears + ' years and '
+                                + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                yearsAndDaysTip = '本站已运行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                yearsAndDaysTip = '本站已運行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = yearsAndDaysTip;
+                        }
+                    }
+
+                    calcSiteTime();
+                </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/Weikeet" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:Weikeet@foxmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1570682285" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1570682285" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/materialize/materialize.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/aos/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/js/matery.js"></script>
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    
+    <script async src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

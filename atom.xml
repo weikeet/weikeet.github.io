@@ -1,0 +1,504 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Weikeet</title>
+  
+  <subtitle>Weikeet&#39; blog</subtitle>
+  <link href="https://www.blog.weikeet.cc/atom.xml" rel="self"/>
+  
+  <link href="https://www.blog.weikeet.cc/"/>
+  <updated>2023-05-15T13:20:20.000Z</updated>
+  <id>https://www.blog.weikeet.cc/</id>
+  
+  <author>
+    <name>Weikeet</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Jetpack ViewModel 分析</title>
+    <link href="https://www.blog.weikeet.cc/20221210/jetpack-viewmodel-fen-xi/"/>
+    <id>https://www.blog.weikeet.cc/20221210/jetpack-viewmodel-fen-xi/</id>
+    <published>2022-12-10T11:28:27.000Z</published>
+    <updated>2023-05-15T13:20:20.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;/assets/css/APlayer.min.css&quot;&gt;&lt;script src=&quot;/assets/js/APlayer.min.js&quot;</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Android" scheme="https://www.blog.weikeet.cc/tags/Android/"/>
+    
+    <category term="Jetpack" scheme="https://www.blog.weikeet.cc/tags/Jetpack/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Android Native 异常捕获与解析</title>
+    <link href="https://www.blog.weikeet.cc/20221009/android-native-crash/"/>
+    <id>https://www.blog.weikeet.cc/20221009/android-native-crash/</id>
+    <published>2022-10-09T14:53:27.000Z</published>
+    <updated>2022-10-09T14:53:27.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;/assets/css/APlayer.min.css&quot;&gt;&lt;script src=&quot;/assets/js/APlayer.min.js&quot;</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Android" scheme="https://www.blog.weikeet.cc/tags/Android/"/>
+    
+    <category term="C++" scheme="https://www.blog.weikeet.cc/tags/C/"/>
+    
+    <category term="NDK" scheme="https://www.blog.weikeet.cc/tags/NDK/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Mac 开发环境自动部署</title>
+    <link href="https://www.blog.weikeet.cc/20220918/mac-dev-setup/"/>
+    <id>https://www.blog.weikeet.cc/20220918/mac-dev-setup/</id>
+    <published>2022-09-18T17:53:27.000Z</published>
+    <updated>+020022-09-18T17:53:27.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;/assets/css/APlayer.min.css&quot;&gt;&lt;script src=&quot;/assets/js/APlayer.min.js&quot;</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Mac" scheme="https://www.blog.weikeet.cc/tags/Mac/"/>
+    
+    <category term="Shell" scheme="https://www.blog.weikeet.cc/tags/Shell/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Android 软键盘分析和最佳实践</title>
+    <link href="https://www.blog.weikeet.cc/20220620/android-softkeyboard/"/>
+    <id>https://www.blog.weikeet.cc/20220620/android-softkeyboard/</id>
+    <published>2022-06-20T11:28:27.000Z</published>
+    <updated>2023-06-20T13:20:20.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;/assets/css/APlayer.min.css&quot;&gt;&lt;script src=&quot;/assets/js/APlayer.min.js&quot;</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Android" scheme="https://www.blog.weikeet.cc/tags/Android/"/>
+    
+    <category term="WindowInsets" scheme="https://www.blog.weikeet.cc/tags/WindowInsets/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Android WindowInsets 分析和最佳实践</title>
+    <link href="https://www.blog.weikeet.cc/20220325/android-windowinsets/"/>
+    <id>https://www.blog.weikeet.cc/20220325/android-windowinsets/</id>
+    <published>2022-03-25T11:28:27.000Z</published>
+    <updated>2022-05-10T13:20:20.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;/assets/css/APlayer.min.css&quot;&gt;&lt;script src=&quot;/assets/js/APlayer.min.js&quot;</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Android" scheme="https://www.blog.weikeet.cc/tags/Android/"/>
+    
+    <category term="WindowInsets" scheme="https://www.blog.weikeet.cc/tags/WindowInsets/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Android 逆向之 Smali 语法</title>
+    <link href="https://www.blog.weikeet.cc/20210809/android-smali-grammary/"/>
+    <id>https://www.blog.weikeet.cc/20210809/android-smali-grammary/</id>
+    <published>2021-08-09T14:53:27.000Z</published>
+    <updated>2021-08-09T14:53:27.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;/assets/css/APlayer.min.css&quot;&gt;&lt;script src=&quot;/assets/js/APlayer.min.js&quot;</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Android" scheme="https://www.blog.weikeet.cc/tags/Android/"/>
+    
+    <category term="Reverse" scheme="https://www.blog.weikeet.cc/tags/Reverse/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>使用 Kotlin  实现高效动态编写布局, Drawable, Animation</title>
+    <link href="https://www.blog.weikeet.cc/20200625/android-fluent-ui/"/>
+    <id>https://www.blog.weikeet.cc/20200625/android-fluent-ui/</id>
+    <published>2020-06-25T11:28:27.000Z</published>
+    <updated>2023-05-10T13:20:20.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;/assets/css/APlayer.min.css&quot;&gt;&lt;script src=&quot;/assets/js/APlayer.min.js&quot;</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Android" scheme="https://www.blog.weikeet.cc/tags/Android/"/>
+    
+    <category term="View" scheme="https://www.blog.weikeet.cc/tags/View/"/>
+    
+    <category term="Kotlin" scheme="https://www.blog.weikeet.cc/tags/Kotlin/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>使用FRP进行内网穿透</title>
+    <link href="https://www.blog.weikeet.cc/20200404/intranet-penetration-by-frp/"/>
+    <id>https://www.blog.weikeet.cc/20200404/intranet-penetration-by-frp/</id>
+    <published>2020-04-04T15:12:27.000Z</published>
+    <updated>2019-02-13T19:16:29.000Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;使用frp进行内网穿透&quot;&gt;&lt;a href=&quot;#使用frp进行内网穿透&quot; class=&quot;headerlink&quot; title=&quot;使用frp进行内网穿透&quot;&gt;&lt;/a&gt;使用frp进行内网穿透&lt;/h1&gt;&lt;p&gt;FRP项目地址：&lt;a href=&quot;https://github.com/fatedier/frp&quot;&gt;https://github.com/fatedier/frp&lt;/a&gt;&lt;br&gt;FRP中文说明：&lt;a href=&quot;https://github.com/fatedier/frp/blob/master/README_zh.md&quot;&gt;https://github.com/fatedier/frp/blob/master/README_zh.md&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;frp是什么&quot;&gt;&lt;a href=&quot;#frp是什么&quot; class=&quot;headerlink&quot; title=&quot;frp是什么&quot;&gt;&lt;/a&gt;frp是什么&lt;/h2&gt;&lt;p&gt;简单地说:frp就是一个&lt;a href=&quot;https://www.zhihu.com/question/24723688&quot;&gt;反向代理软件&lt;/a&gt;，它体积轻量但功能很强大，可以&lt;strong&gt;使处于内网或防火墙后的设备对外界提供服务&lt;/strong&gt;，它支持 &lt;strong&gt;HTTP、TCP、UDP&lt;/strong&gt;等众多协议。&lt;/p&gt;
+&lt;h2 id=&quot;为什么需要内网穿透&quot;&gt;&lt;a href=&quot;#为什么需要内网穿透&quot; class=&quot;headerlink&quot; title=&quot;为什么需要内网穿透&quot;&gt;&lt;/a&gt;为什么需要内网穿透&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;从公网中访问自己的私有设备向来是一件难事儿。&lt;/strong&gt;&lt;br&gt;自己的主力台式机、NAS等等设备，它们可能处于路由器后，或者运营商因为IP地址短缺不给你分配公网IP地址。如果我们想直接访问到这些设备（远程桌面，远程文件，SSH等等），一般来说要通过一些转发或者P2P组网软件的帮助。&lt;br&gt;我有一台计算机位于一个很复杂的局域网中，我想要实现远程桌面和文件访问，目前来看其所处的网络环境很难通过简单的端口映射将其暴露在公网之中，我试过这么几种方法：&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="NAS" scheme="https://www.blog.weikeet.cc/tags/NAS/"/>
+    
+    <category term="Network" scheme="https://www.blog.weikeet.cc/tags/Network/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>使用NPS进行内网穿透</title>
+    <link href="https://www.blog.weikeet.cc/20200316/intranet-penetration-by-nps/"/>
+    <id>https://www.blog.weikeet.cc/20200316/intranet-penetration-by-nps/</id>
+    <published>2020-03-16T13:12:27.000Z</published>
+    <updated>2019-02-13T19:16:29.000Z</updated>
+    
+    
+    <summary type="html">&lt;h3 id=&quot;服务端&quot;&gt;&lt;a href=&quot;#服务端&quot; class=&quot;headerlink&quot; title=&quot;服务端&quot;&gt;&lt;/a&gt;服务端&lt;/h3&gt;&lt;h4 id=&quot;下载-NPS-程序安装&quot;&gt;&lt;a href=&quot;#下载-NPS-程序安装&quot; class=&quot;headerlink&quot; title=&quot;下载 NPS 程序安装&quot;&gt;&lt;/a&gt;下载 NPS 程序安装&lt;/h4&gt;&lt;pre class=&quot;line-numbers language-bash&quot; data-language=&quot;bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# 运行如下命令，根据CPU架构，选择相应版本并进行下载&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;wget&lt;/span&gt; https://github.com/ehang-io/nps/releases/download/v0.26.6/linux_amd64_server.tar.gz
+
+&lt;span class=&quot;token comment&quot;&gt;# 解压&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;tar&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-zxvf&lt;/span&gt; linux_amd64_server.tar.gz
+
+&lt;span class=&quot;token comment&quot;&gt;# 文件夹改个名，方便使用&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;cp&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-r&lt;/span&gt; linux_amd64_server nps_server
+
+&lt;span class=&quot;token comment&quot;&gt;# 进入nps_server&lt;/span&gt;
+&lt;span class=&quot;token builtin class-name&quot;&gt;cd&lt;/span&gt; nps_server
+
+&lt;span class=&quot;token comment&quot;&gt;# 开启Nps&lt;/span&gt;
+./nps start&lt;span aria-hidden=&quot;true&quot; class=&quot;line-numbers-rows&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;</summary>
+    
+    
+    
+    
+    <category term="NAS" scheme="https://www.blog.weikeet.cc/tags/NAS/"/>
+    
+    <category term="Network" scheme="https://www.blog.weikeet.cc/tags/Network/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>端口号占用解决方法</title>
+    <link href="https://www.blog.weikeet.cc/20200306/port-number-occupy-solution/"/>
+    <id>https://www.blog.weikeet.cc/20200306/port-number-occupy-solution/</id>
+    <published>2020-03-06T22:25:00.000Z</published>
+    <updated>2019-02-13T19:16:29.000Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;端口号占用解决方法&quot;&gt;&lt;a href=&quot;#端口号占用解决方法&quot; class=&quot;headerlink&quot; title=&quot;端口号占用解决方法&quot;&gt;&lt;/a&gt;端口号占用解决方法&lt;/h1&gt;&lt;h2 id=&quot;Linux-端口号占用解决方法&quot;&gt;&lt;a href=&quot;#Linux-端口号占用解决方法&quot; class=&quot;headerlink&quot; title=&quot;Linux 端口号占用解决方法&quot;&gt;&lt;/a&gt;Linux 端口号占用解决方法&lt;/h2&gt;&lt;h3 id=&quot;查询端口号&quot;&gt;&lt;a href=&quot;#查询端口号&quot; class=&quot;headerlink&quot; title=&quot;查询端口号&quot;&gt;&lt;/a&gt;查询端口号&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;使用&lt;code&gt;netstat&lt;/code&gt;命令&lt;br&gt;netstat -tunlp 会显示所有端口和所有对应的程序，如果像得到自己关系的结果，可以使用 grep 对结果集进行过滤。例如：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre class=&quot;line-numbers language-bash&quot; data-language=&quot;bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;netstat&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-tunlp&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;grep&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;java&lt;/span&gt;&lt;span aria-hidden=&quot;true&quot; class=&quot;line-numbers-rows&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样就能过滤出只带有 java 进程的所有端口被占用的情况。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="Network" scheme="https://www.blog.weikeet.cc/tags/Network/"/>
+    
+    <category term="Linux" scheme="https://www.blog.weikeet.cc/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Android TabLayout</title>
+    <link href="https://www.blog.weikeet.cc/20200225/android-widget-tablayout/"/>
+    <id>https://www.blog.weikeet.cc/20200225/android-widget-tablayout/</id>
+    <published>2020-02-25T12:27:20.000Z</published>
+    <updated>2020-05-10T13:20:20.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;/assets/css/APlayer.min.css&quot;&gt;&lt;script src=&quot;/assets/js/APlayer.min.js&quot;</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Android" scheme="https://www.blog.weikeet.cc/tags/Android/"/>
+    
+    <category term="Widget" scheme="https://www.blog.weikeet.cc/tags/Widget/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>IADB 扩展</title>
+    <link href="https://www.blog.weikeet.cc/20200106/iadb/"/>
+    <id>https://www.blog.weikeet.cc/20200106/iadb/</id>
+    <published>2020-01-06T21:20:00.000Z</published>
+    <updated>2019-02-13T19:16:29.000Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;IADB-工具&quot;&gt;&lt;a href=&quot;#IADB-工具&quot; class=&quot;headerlink&quot; title=&quot;IADB 工具&quot;&gt;&lt;/a&gt;IADB 工具&lt;/h1&gt;&lt;p&gt;ADB 扩展工具&lt;/p&gt;
+&lt;p&gt;含义：i adb &amp;amp;&amp;amp; IA Debug Bridge&lt;br&gt;实现步骤：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Shell 脚本：iadb.sh（调用 adb 命令）&lt;/li&gt;
+&lt;li&gt;二进制程序：iadb（使用 shc 封装成可执行程序）&lt;/li&gt;&lt;/ol&gt;</summary>
+    
+    
+    
+    
+    <category term="Android" scheme="https://www.blog.weikeet.cc/tags/Android/"/>
+    
+    <category term="Script" scheme="https://www.blog.weikeet.cc/tags/Script/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Talk-With-Moe</title>
+    <link href="https://www.blog.weikeet.cc/20191222/talk-with-moe/"/>
+    <id>https://www.blog.weikeet.cc/20191222/talk-with-moe/</id>
+    <published>2019-12-22T21:55:00.000Z</published>
+    <updated>2019-02-13T19:16:29.000Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;Talk-With-Me&quot;&gt;&lt;a href=&quot;#Talk-With-Me&quot; class=&quot;headerlink&quot; title=&quot;Talk With Me&quot;&gt;&lt;/a&gt;Talk With Me&lt;/h1&gt;&lt;p&gt;啦啦啦啦啦略略略略略啦啦啦啦啦略略略略略啦啦啦啦啦略略略略略啦啦啦啦啦略略略略略啦啦啦啦啦略略略略略，此处省略一万字……&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="Interview" scheme="https://www.blog.weikeet.cc/tags/Interview/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Android Resource 金银区别</title>
+    <link href="https://www.blog.weikeet.cc/20191216/android-resource-refs/"/>
+    <id>https://www.blog.weikeet.cc/20191216/android-resource-refs/</id>
+    <published>2019-12-16T11:28:27.000Z</published>
+    <updated>2020-02-10T13:20:20.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;/assets/css/APlayer.min.css&quot;&gt;&lt;script src=&quot;/assets/js/APlayer.min.js&quot;</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Android" scheme="https://www.blog.weikeet.cc/tags/Android/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Android TextView</title>
+    <link href="https://www.blog.weikeet.cc/20181210/android-widget-textview/"/>
+    <id>https://www.blog.weikeet.cc/20181210/android-widget-textview/</id>
+    <published>2018-12-10T11:28:27.000Z</published>
+    <updated>2020-05-10T13:20:20.000Z</updated>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;Autosizing-TextView&quot;&gt;&lt;a href=&quot;#Autosizing-TextView&quot; class=&quot;headerlink&quot; title=&quot;Autosizing TextView&quot;&gt;&lt;/a&gt;Autosizing TextView&lt;/h2&gt;&lt;p&gt;使用 Android 8.0（API 级别 26）及更高版本，可以让 &lt;code&gt;TextView&lt;/code&gt;文本大小自动扩展或收缩，以根据其&lt;code&gt;TextView&lt;/code&gt;特征和边界填充其布局 。此设置可以更轻松地使用动态内容优化不同屏幕上的文本大小。&lt;/p&gt;
+&lt;p&gt;Support Library 26.0 完全支持 &lt;code&gt;TextView&lt;/code&gt;在 Android 8.0（API 级别 26）之前运行 Android 版本的设备上的自动调整功能。该库提供对 Android 4.0（API 级别 14）及更高版本的支持。该&lt;code&gt;android.support.v4.widget&lt;/code&gt; 软件包含&lt;code&gt;TextViewCompat&lt;/code&gt;以向后兼容方式访问功能的类&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="Android" scheme="https://www.blog.weikeet.cc/tags/Android/"/>
+    
+    <category term="Widget" scheme="https://www.blog.weikeet.cc/tags/Widget/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>比较合适的Hexo多设备同步方法</title>
+    <link href="https://www.blog.weikeet.cc/20181111/hexo-sync-onmultidevice/"/>
+    <id>https://www.blog.weikeet.cc/20181111/hexo-sync-onmultidevice/</id>
+    <published>2018-11-11T13:30:10.000Z</published>
+    <updated>2019-02-13T19:16:29.000Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;比较合适的-Hexo-多设备同步方法&quot;&gt;&lt;a href=&quot;#比较合适的-Hexo-多设备同步方法&quot; class=&quot;headerlink&quot; title=&quot;比较合适的 Hexo 多设备同步方法&quot;&gt;&lt;/a&gt;比较合适的 Hexo 多设备同步方法&lt;/h1&gt;&lt;p&gt;经常我们有一个场景：需要在公司或者家庭多个电脑完成 Hexo 的博客撰写和发布工作。这就涉及到 Hexo 多电脑的同步问题。&lt;/p&gt;
+&lt;p&gt;网上的方案基本上都是多分支方案，也就是在同一个仓库创建两个分支：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Hexo 分支 – 用来保存所有 Hexo 的源文件&lt;/li&gt;
+&lt;li&gt;master 分支 – 用来保存 Hexo 生成的博客文件&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;在创建 GitHub Pages 或者 Coding Pages 时，以 master 分支为 pages 分支。&lt;br&gt;Hexo 的 deploy 指向 master 分支部署 pages，git 的管理指向 Hexo 分支。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="GitHub" scheme="https://www.blog.weikeet.cc/tags/GitHub/"/>
+    
+    <category term="Hexo" scheme="https://www.blog.weikeet.cc/tags/Hexo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>EventBus 源码解析</title>
+    <link href="https://www.blog.weikeet.cc/20180913/codeanalysis-eventbus/"/>
+    <id>https://www.blog.weikeet.cc/20180913/codeanalysis-eventbus/</id>
+    <published>2018-09-13T23:18:12.000Z</published>
+    <updated>2019-02-13T19:16:29.000Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;EventBus-源码解析&quot;&gt;&lt;a href=&quot;#EventBus-源码解析&quot; class=&quot;headerlink&quot; title=&quot;EventBus 源码解析&quot;&gt;&lt;/a&gt;EventBus 源码解析&lt;/h1&gt;&lt;h2 id=&quot;EventBus-简介&quot;&gt;&lt;a href=&quot;#EventBus-简介&quot; class=&quot;headerlink&quot; title=&quot;EventBus 简介&quot;&gt;&lt;/a&gt;EventBus 简介&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;http://a.codekk.com/detail/Android/Trinea/EventBus%20%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;EventBus 是 Android 端优化的 publish/subscribe 消息总线，简化了应用程序内各组件间、组件与后台线程的通信，主要由三个部分组成:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;事件 Event: 可以是任意对象，通过事件的发布者将事件进行传递&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;事件订阅者 Subscriber: 接收特定事件&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;事件发布者 Publisher: 用于通知 Subscriber 有事件发生，可以在任意线程任意位置发送事件&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;</summary>
+    
+    
+    
+    
+    <category term="Android" scheme="https://www.blog.weikeet.cc/tags/Android/"/>
+    
+    <category term="SourceCode Analysis" scheme="https://www.blog.weikeet.cc/tags/SourceCode-Analysis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Telegram 代理设置</title>
+    <link href="https://www.blog.weikeet.cc/20180514/telegram-proxy-method/"/>
+    <id>https://www.blog.weikeet.cc/20180514/telegram-proxy-method/</id>
+    <published>2018-05-14T15:12:27.000Z</published>
+    <updated>2019-02-13T19:16:29.000Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;Telegram-代理设置&quot;&gt;&lt;a href=&quot;#Telegram-代理设置&quot; class=&quot;headerlink&quot; title=&quot;Telegram 代理设置&quot;&gt;&lt;/a&gt;Telegram 代理设置&lt;/h1&gt;&lt;p&gt;本次测试的是 Mac ShadowsocksX-NG + Telegram&lt;br&gt;&lt;img src=&quot;http://blog-1251678165.coscd.myqcloud.com/2018-05-14-064147.png&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;Shadowsocks&quot;&gt;&lt;a href=&quot;#Shadowsocks&quot; class=&quot;headerlink&quot; title=&quot;Shadowsocks&quot;&gt;&lt;/a&gt;Shadowsocks&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/shadowsocks/ShadowsocksX-NG/releases&quot;&gt;ShadowsocksX-NG&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;打开偏好设置，高级选项，查看 SOCKS5 端口&lt;br&gt;&lt;img src=&quot;http://blog-1251678165.coscd.myqcloud.com/2018-05-14-064557.png&quot;&gt;&lt;/li&gt;&lt;/ol&gt;</summary>
+    
+    
+    
+    
+    <category term="Network" scheme="https://www.blog.weikeet.cc/tags/Network/"/>
+    
+    <category term="Shadowsocks" scheme="https://www.blog.weikeet.cc/tags/Shadowsocks/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Git使用手册</title>
+    <link href="https://www.blog.weikeet.cc/20180112/git-manual/"/>
+    <id>https://www.blog.weikeet.cc/20180112/git-manual/</id>
+    <published>2018-01-12T14:16:27.000Z</published>
+    <updated>2019-11-25T16:40:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;/assets/css/APlayer.min.css&quot;&gt;&lt;script src=&quot;/assets/js/APlayer.min.js&quot;</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Git" scheme="https://www.blog.weikeet.cc/tags/Git/"/>
+    
+    <category term="GitHub" scheme="https://www.blog.weikeet.cc/tags/GitHub/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>《Android 源码设计模式解析与实战》读书笔记 - 适配器模式</title>
+    <link href="https://www.blog.weikeet.cc/20171210/designpattern-structure-adapter/"/>
+    <id>https://www.blog.weikeet.cc/20171210/designpattern-structure-adapter/</id>
+    <published>2017-12-10T11:18:27.000Z</published>
+    <updated>2019-02-13T19:16:29.000Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;《Android-源码设计模式解析与实战》读书笔记-适配器模式&quot;&gt;&lt;a href=&quot;#《Android-源码设计模式解析与实战》读书笔记-适配器模式&quot; class=&quot;headerlink&quot; title=&quot;《Android 源码设计模式解析与实战》读书笔记 - 适配器模式&quot;&gt;&lt;/a&gt;《Android 源码设计模式解析与实战》读书笔记 - 适配器模式&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;适配器模式把一个类的接口变换成客户端所期待的另外一个接口，从而使原本因接口不匹配而无法一起工作的两个类能够在一起工作&lt;br&gt;适配器分为类适配器和对象适配器两张&lt;/p&gt;
+&lt;/blockquote&gt;</summary>
+    
+    
+    
+    
+    <category term="Android" scheme="https://www.blog.weikeet.cc/tags/Android/"/>
+    
+    <category term="Java" scheme="https://www.blog.weikeet.cc/tags/Java/"/>
+    
+    <category term="DesignPattern" scheme="https://www.blog.weikeet.cc/tags/DesignPattern/"/>
+    
+  </entry>
+  
+</feed>

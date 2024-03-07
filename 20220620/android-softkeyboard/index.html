@@ -1,0 +1,2139 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="Android 软键盘分析和最佳实践, Weikeet">
+    <meta name="description" content="降りしきる強い雨, 描いた夢の果て">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-85513822-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+    gtag('config', 'UA-85513822-1');
+</script>
+
+
+    <title>Android 软键盘分析和最佳实践 | Weikeet</title>
+    <link rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/css/my.css">
+
+    <script src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 5.4.2">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="Weikeet" type="application/atom+xml">
+</head>
+
+
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Weikeet</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Weikeet</div>
+        <div class="logo-desc">
+            
+            降りしきる強い雨, 描いた夢の果て
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+<script src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/medias/featureimages/163536_70858371.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">Android 软键盘分析和最佳实践</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Android/">
+                                <span class="chip bg-color">Android</span>
+                            </a>
+                        
+                            <a href="/tags/WindowInsets/">
+                                <span class="chip bg-color">WindowInsets</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2022-06-20
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2023-06-20
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    5.3k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    22 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/prism/prism.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>Project: <a target="_blank" rel="noopener" href="https://github.com/weikeet/SoftKeyboardWatcher">https://github.com/weikeet/SoftKeyboardWatcher</a></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><ul>
+<li><p>软键盘是 Android 进行用户交互的重要途径之一，Android 应用开发基本无法避免不使用它。</p>
+</li>
+<li><p>然而官方没有提供一套明确的 API 来获取软键盘相关信息：</p>
+<ul>
+<li>软键盘是否正在展示</li>
+<li>软键盘高度等</li>
+</ul>
+</li>
+<li><p>本次分享将从以下内容来分析软键盘</p>
+<ul>
+<li>软键盘开启与关闭</li>
+<li>软键盘示例分析</li>
+<li>softInputMode 使用及原理</li>
+<li>如何获取可见区域</li>
+<li>WindowInsets API</li>
+<li>软键盘适配最佳实践</li>
+</ul>
+</li>
+</ul>
+<h2 id="软键盘弹出和关闭"><a href="#软键盘弹出和关闭" class="headerlink" title="软键盘弹出和关闭"></a>软键盘弹出和关闭</h2><p>平时和软键盘交互最多的就是 <code>EditText</code>, 当点击 <code>EditText</code> 时键盘就会弹出，当点击返回按钮时键盘收起：</p>
+<img class="h-60" src=" https://blog-1251678165.cos.ap-chengdu.myqcloud.com/uPic/ime-pan-1.gif">
+
+<p>既然已经有弹出、收起键盘的例子，那么找找其如何控制键盘的。</p>
+<p>从 TextView (EditText extends TextView) 源码看看如何点击时弹出软键盘</p>
+<h3 id="弹出软键盘"><a href="#弹出软键盘" class="headerlink" title="弹出软键盘"></a>弹出软键盘</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Override</span>  
+<span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">onTouchEvent</span><span class="token punctuation">(</span><span class="token class-name">MotionEvent</span> event<span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+  <span class="token keyword">final</span> <span class="token keyword">int</span> action <span class="token operator">=</span> event<span class="token punctuation">.</span><span class="token function">getActionMasked</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+  <span class="token comment">//...  </span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>mMovement <span class="token operator">!=</span> <span class="token keyword">null</span> <span class="token operator">||</span> <span class="token function">onCheckIsTextEditor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token function">isEnabled</span><span class="token punctuation">(</span><span class="token punctuation">)</span>  
+      <span class="token operator">&amp;&amp;</span> mText <span class="token keyword">instanceof</span> <span class="token class-name">Spannable</span> <span class="token operator">&amp;&amp;</span> mLayout <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+    <span class="token comment">//...  </span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>touchIsFinished <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span><span class="token function">isTextEditable</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">||</span> textIsSelectable<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+      <span class="token comment">// Show the IME, except when selecting in read-only text.  </span>
+      <span class="token keyword">final</span> <span class="token class-name">InputMethodManager</span> imm <span class="token operator">=</span> <span class="token function">getInputMethodManager</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+      <span class="token function">viewClicked</span><span class="token punctuation">(</span>imm<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">isTextEditable</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> mEditor<span class="token punctuation">.</span>mShowSoftInputOnFocus <span class="token operator">&amp;&amp;</span> imm <span class="token operator">!=</span> <span class="token keyword">null</span> <span class="token operator">&amp;&amp;</span> <span class="token operator">!</span><span class="token function">showAutofillDialog</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        imm<span class="token punctuation">.</span><span class="token function">showSoftInput</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+      <span class="token punctuation">}</span>  
+      <span class="token comment">//...  </span>
+    <span class="token punctuation">}</span>  
+    <span class="token comment">//...  </span>
+  <span class="token punctuation">}</span>  
+  <span class="token comment">//...  </span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>可以看出弹出键盘需要两个步骤：</p>
+<blockquote>
+<p>1、获取 InputMethodManager 实例<br>2、调用 showSoftInput()</p>
+</blockquote>
+<h3 id="关闭软键盘"><a href="#关闭软键盘" class="headerlink" title="关闭软键盘"></a>关闭软键盘</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">onEditorAction</span><span class="token punctuation">(</span><span class="token keyword">int</span> actionCode<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token comment">//...</span>
+	<span class="token keyword">if</span> <span class="token punctuation">(</span>actionCode <span class="token operator">==</span> <span class="token class-name">EditorInfo</span><span class="token punctuation">.</span><span class="token constant">IME_ACTION_DONE</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+	    <span class="token class-name">InputMethodManager</span> imm <span class="token operator">=</span> <span class="token function">getInputMethodManager</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+	    <span class="token keyword">if</span> <span class="token punctuation">(</span>imm <span class="token operator">!=</span> <span class="token keyword">null</span> <span class="token operator">&amp;&amp;</span> imm<span class="token punctuation">.</span><span class="token function">isActive</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+	        imm<span class="token punctuation">.</span><span class="token function">hideSoftInputFromWindow</span><span class="token punctuation">(</span><span class="token function">getWindowToken</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+	    <span class="token punctuation">}</span>
+	    <span class="token keyword">return</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+	<span class="token comment">//...</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>可以得出关闭键盘也只需要两步：</p>
+<blockquote>
+<p>1、获取 InputMethodManager 实例<br>2、调用 hideSoftInputFromWindow()</p>
+</blockquote>
+<h3 id="注意-📢"><a href="#注意-📢" class="headerlink" title="注意 📢"></a>注意 📢</h3><ol>
+<li><code>imm.showSoftInput(view, code)</code> 通常 view 传入的是 EditText 类型。<ul>
+<li>如果传入其它 <code>View</code>，需要设置 <code>setFocusableInTouchMode(true)</code> 才能弹出键盘。</li>
+<li>比较完善的实现还需在 <code>onTouchEvent()</code> 里弹出键盘、将 <code>Button</code> 与键盘关联，实际上就是模仿 EditText 的实现。</li>
+</ul>
+</li>
+<li><code>imm.showSoftInput(view, code)</code>, <code>imm.hideSoftInputFromWindow(windowToken, code)</code> 两个方法的最后一个参数用来匹配关闭键盘时判断当初弹出键盘时传入的类型，一般填 0 即可。</li>
+<li><code>imm.hideSoftInputFromWindow(windowToken, code)</code> 第一个参数传入的 IBinder windowToken 类型。<ul>
+<li>每个 Activity 创建时候会生成 windowToken，该值存储在 AttachInfo 里。</li>
+<li>因此对于同一个 Activity 里的 ViewTree，每个 View 持有的 windowToken 都是指向相同对象。</li>
+</ul>
+</li>
+</ol>
+<h2 id="软键盘示例分析"><a href="#软键盘示例分析" class="headerlink" title="软键盘示例分析"></a>软键盘示例分析</h2><img h="60" src=" https://blog-1251678165.cos.ap-chengdu.myqcloud.com/uPic/ime-pan-1.gif">
+
+<ul>
+<li>当键盘弹起的时，当前能看到的是两个 Window: <code>Activity#Window</code> 和 <code>IME#Window</code></li>
+<li><code>IME#Window</code> 展示遮住 <code>Activity#Window</code> 的部分区域，为了使 <code>EditText</code> 能够被看到，<code>Activity</code> 布局会向上偏移</li>
+</ul>
+<blockquote>
+<p>Window 区域构成和变化情况</p>
+</blockquote>
+<p><img src="https://blog-1251678165.cos.ap-chengdu.myqcloud.com/uPic/H0CsIU.jpg" alt="H0CsIU"></p>
+<blockquote>
+<p>软键盘弹出时 Window 状态：Window {d 855900 InputMethod} 正好在 ImeTestActivity 之上</p>
+</blockquote>
+<pre class="line-numbers language-bash" data-language="bash"><div class="caption"><span>{all|6,7}</span></div><code class="language-bash">$ adb shell dumpsys window<span class="token operator">|</span><span class="token function">grep</span> WindowStateAnimator
+      Window <span class="token comment">#0: WindowStateAnimator{e30fe7 com.android.systemui.ImageWallpaper}</span>
+      Window <span class="token comment">#1: WindowStateAnimator{3305794 com.google.android.apps.nexuslauncher/com.google.android.apps.nexuslauncher.NexusLauncherActivity}</span>
+      Window <span class="token comment">#2: WindowStateAnimator{6bc923d com.google.android.apps.nexuslauncher/com.google.android.apps.nexuslauncher.NexusLauncherActivity}</span>
+      Window <span class="token comment">#3: WindowStateAnimator{b070a32 com.weiwei.keyboard.watcher.sample/com.weiwei.keyboard.watcher.sample.MainActivity}</span>
+      Window <span class="token comment">#4: WindowStateAnimator{bc6c383 com.weiwei.keyboard.watcher.sample/com.weiwei.keyboard.watcher.sample.test.ImeTestActivity}</span>
+      Window <span class="token comment">#5: WindowStateAnimator{d855900 InputMethod}</span>
+      Window <span class="token comment">#6: WindowStateAnimator{8e51539 ShellDropTarget}</span>
+      Window <span class="token comment">#7: WindowStateAnimator{917977e StatusBar}</span>
+      Window <span class="token comment">#8: WindowStateAnimator{8a814df NotificationShade}</span>
+      Window <span class="token comment">#9: WindowStateAnimator{967052c NavigationBar0}</span>
+      Window <span class="token punctuation">..</span>.<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>是谁控制了 Window 向上偏移呢？</p>
+<ul>
+<li>Window 中恰好就有控制软键盘的参数 WindowManager.LayoutParams.softInputMode</li>
+</ul>
+<blockquote>
+<p>试想以下问题如何解决：<br>1、当键盘弹出时，底部 Button 恰好保持在键盘之上。<br>2、当键盘弹出时，任何 View 都不需要顶上去。</p>
+</blockquote>
+<h2 id="softInputMode-文档说明"><a href="#softInputMode-文档说明" class="headerlink" title="softInputMode 文档说明"></a>softInputMode 文档说明</h2><p>softInputMode 顾名思义：<strong>软键盘模式</strong>，控制软键盘是否可见、关联的 EditText 是否跟随键盘移动等，重点关注以下属性：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">// WindowManager.java</span>
+<span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> <span class="token constant">SOFT_INPUT_ADJUST_UNSPECIFIED</span> <span class="token operator">=</span> <span class="token number">0x00</span><span class="token punctuation">;</span>
+<span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> <span class="token constant">SOFT_INPUT_ADJUST_RESIZE</span> <span class="token operator">=</span> <span class="token number">0x10</span><span class="token punctuation">;</span>
+<span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> <span class="token constant">SOFT_INPUT_ADJUST_PAN</span> <span class="token operator">=</span> <span class="token number">0x20</span><span class="token punctuation">;</span>
+<span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> <span class="token constant">SOFT_INPUT_ADJUST_NOTHING</span> <span class="token operator">=</span> <span class="token number">0x30</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>从注释的文档上看：</p>
+<ul>
+<li>ADJUST_UNSPECIFIED: 不指定调整方式，系统自行决定使用哪种调整方式</li>
+<li>ADJUST_RESIZE: 显示软键盘时调整窗口大小，使其内容不被输入法覆盖</li>
+<li>ADJUST_PAN: 显示软键盘时，窗口将回平移来保证输入焦点可见</li>
+<li>ADJUST_NOTHING: 不做任何操作</li>
+</ul>
+<h2 id="softInputMode-设置方法"><a href="#softInputMode-设置方法" class="headerlink" title="softInputMode 设置方法"></a>softInputMode 设置方法</h2><p>softInputMode 默认是 ADJUST_UNSPECIFIED 模式，其他模式设置方法：</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">方法<span class="token number">1</span> Activity#onCreate  
+window<span class="token punctuation">.</span><span class="token function">setSoftInputMode</span><span class="token punctuation">(</span>WindowManager<span class="token punctuation">.</span>LayoutParams<span class="token punctuation">.</span>SOFT_INPUT_ADJUST_NOTHING<span class="token punctuation">)</span>
+
+方法<span class="token number">2</span> AndroidManifest<span class="token punctuation">.</span>xml activity tag
+android<span class="token operator">:</span>windowSoftInputMode<span class="token operator">=</span><span class="token string-literal singleline"><span class="token string">"adjustNothing"</span></span>
+
+方法<span class="token number">3</span> Application<span class="token operator">/</span>Activity theme  
+<span class="token operator">&lt;</span>item name<span class="token operator">=</span><span class="token string-literal singleline"><span class="token string">"android:windowSoftInputMode"</span></span><span class="token operator">&gt;</span>adjustNothing<span class="token operator">&lt;</span><span class="token operator">/</span>item<span class="token operator">&gt;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="softInputMode-示例对比"><a href="#softInputMode-示例对比" class="headerlink" title="softInputMode 示例对比"></a>softInputMode 示例对比</h2><p>以这三种布局约束排列结构为示例：分别点击两个 EditText 来测试弹出和收起软键盘</p>
+<img class="h-100" src=" https://blog-1251678165.cos.ap-chengdu.myqcloud.com/uPic/byqhVE.jpg">
+
+<hr>
+<h2 id="SOFT-INPUT-ADJUST-RESIZE"><a href="#SOFT-INPUT-ADJUST-RESIZE" class="headerlink" title="SOFT_INPUT_ADJUST_RESIZE"></a>SOFT_INPUT_ADJUST_RESIZE</h2><table>
+<thead>
+<tr>
+<th><img src=" https://blog-1251678165.cos.ap-chengdu.myqcloud.com/uPic/ime-resize-1.gif" class="h-100"></th>
+<th><img src=" https://blog-1251678165.cos.ap-chengdu.myqcloud.com/uPic/ime-resize-2.gif" class="h-100"></th>
+<th><img src=" https://blog-1251678165.cos.ap-chengdu.myqcloud.com/uPic/ime-resize-3.gif" class="h-100"></th>
+</tr>
+</thead>
+</table>
+<p>从三个示例 gif 可以看出：软键盘弹出/关闭时，布局高度会随着改变，布局中的控件会重新布局。</p>
+<p>所以与底部没有约束关系的 View 在布局高度变化的时候，不会跟随移动。</p>
+<ul>
+<li>那么思考一下 ADJUST_RESIZE 模式下的几个问题：<ul>
+<li>如何改变布局高度？</li>
+<li>改变了哪个布局的高度？</li>
+<li>是否一定会改变布局高度？</li>
+</ul>
+</li>
+</ul>
+<h3 id="原理分析"><a href="#原理分析" class="headerlink" title="原理分析"></a>原理分析</h3><p>由以上的示例可知一定是 ViewTree 里的某个 ViewGroup 高度改变了。</p>
+<p>键盘本身是一个 Window，键盘弹出影响了 <code>ActivityWindow</code> 大小，从而导致 ViewTree 变化，而 Window 和 ViewTree 的联系则是通过 <code>ViewRootImpl.java</code> 实现的</p>
+<p><code>ViewRootImpl</code> 接收 <code>WMS 事件</code> 的处理过程如下：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">// ViewRootImpl.java</span>
+<span class="token keyword">final</span> <span class="token keyword">class</span> <span class="token class-name">ViewRootHandler</span> <span class="token keyword">extends</span> <span class="token class-name">Handler</span> <span class="token punctuation">{</span>
+  <span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">handleMessageImpl</span><span class="token punctuation">(</span><span class="token class-name">Message</span> msg<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">switch</span> <span class="token punctuation">(</span>msg<span class="token punctuation">.</span>what<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">//接收窗口变化事件</span>
+      <span class="token keyword">case</span> <span class="token constant">MSG_RESIZED</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token comment">//args 记录了各个区域大大小</span>
+        <span class="token class-name">SomeArgs</span> args <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token class-name">SomeArgs</span><span class="token punctuation">)</span> msg<span class="token punctuation">.</span>obj<span class="token punctuation">;</span>
+        <span class="token comment">//-------------------&gt;Note 1</span>
+        <span class="token comment">//arg 1----&gt;Window 的尺寸</span>
+        <span class="token comment">//arg 2----&gt;内容区域限定边界</span>
+        <span class="token comment">//arg 3-----&gt;可见区域的限定边界</span>
+        <span class="token comment">//arg 6-----&gt;固定区域的限定边界</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>mWinFrame<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>args<span class="token punctuation">.</span>arg <span class="token number">1</span><span class="token punctuation">)</span>
+            <span class="token operator">&amp;&amp;</span> mPendingOverscanInsets<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>args<span class="token punctuation">.</span>arg <span class="token number">5</span><span class="token punctuation">)</span>
+            <span class="token operator">&amp;&amp;</span> mPendingContentInsets<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>args<span class="token punctuation">.</span>arg <span class="token number">2</span><span class="token punctuation">)</span>
+            <span class="token operator">&amp;&amp;</span> mPendingStableInsets<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>args<span class="token punctuation">.</span>arg <span class="token number">6</span><span class="token punctuation">)</span>
+            <span class="token operator">&amp;&amp;</span> mPendingDisplayCutout<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>args<span class="token punctuation">.</span>arg <span class="token number">9</span><span class="token punctuation">)</span>
+            <span class="token operator">&amp;&amp;</span> mPendingVisibleInsets<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>args<span class="token punctuation">.</span>arg <span class="token number">3</span><span class="token punctuation">)</span>
+            <span class="token operator">&amp;&amp;</span> mPendingOutsets<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>args<span class="token punctuation">.</span>arg <span class="token number">7</span><span class="token punctuation">)</span>
+            <span class="token operator">&amp;&amp;</span> mPendingBackDropFrame<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>args<span class="token punctuation">.</span>arg <span class="token number">8</span><span class="token punctuation">)</span>
+            <span class="token operator">&amp;&amp;</span> args<span class="token punctuation">.</span>arg <span class="token number">4</span> <span class="token operator">==</span> <span class="token keyword">null</span>
+            <span class="token operator">&amp;&amp;</span> args<span class="token punctuation">.</span>argi <span class="token number">1</span> <span class="token operator">==</span> <span class="token number">0</span>
+            <span class="token operator">&amp;&amp;</span> mDisplay<span class="token punctuation">.</span><span class="token function">getDisplayId</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> args<span class="token punctuation">.</span>argi <span class="token number">3</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token comment">//各个区域大小都没变化，则不作任何操作</span>
+          <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">case</span> <span class="token constant">MSG_RESIZED_REPORT</span><span class="token operator">:</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>mAdded<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token class-name">SomeArgs</span> args <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token class-name">SomeArgs</span><span class="token punctuation">)</span> msg<span class="token punctuation">.</span>obj<span class="token punctuation">;</span>
+          <span class="token comment">//...</span>
+
+          <span class="token keyword">final</span> <span class="token keyword">boolean</span> framesChanged <span class="token operator">=</span> <span class="token operator">!</span>mWinFrame<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>args<span class="token punctuation">.</span>arg <span class="token number">1</span><span class="token punctuation">)</span>
+            <span class="token operator">||</span> <span class="token operator">!</span>mPendingOverscanInsets<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>args<span class="token punctuation">.</span>arg <span class="token number">5</span><span class="token punctuation">)</span>
+            <span class="token operator">||</span> <span class="token operator">!</span>mPendingContentInsets<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>args<span class="token punctuation">.</span>arg <span class="token number">2</span><span class="token punctuation">)</span>
+            <span class="token operator">||</span> <span class="token operator">!</span>mPendingStableInsets<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>args<span class="token punctuation">.</span>arg <span class="token number">6</span><span class="token punctuation">)</span>
+            <span class="token operator">||</span> <span class="token operator">!</span>mPendingDisplayCutout<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>args<span class="token punctuation">.</span>arg <span class="token number">9</span><span class="token punctuation">)</span>
+            <span class="token operator">||</span> <span class="token operator">!</span>mPendingVisibleInsets<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>args<span class="token punctuation">.</span>arg <span class="token number">3</span><span class="token punctuation">)</span>
+            <span class="token operator">||</span> <span class="token operator">!</span>mPendingOutsets<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>args<span class="token punctuation">.</span>arg <span class="token number">7</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+          <span class="token comment">//重新设置 Window 尺寸</span>
+          <span class="token function">setFrame</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token class-name">Rect</span><span class="token punctuation">)</span> args<span class="token punctuation">.</span>arg <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token comment">//将值记录到各个成员变量里</span>
+          mPendingOverscanInsets<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token class-name">Rect</span><span class="token punctuation">)</span> args<span class="token punctuation">.</span>arg <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          mPendingContentInsets<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token class-name">Rect</span><span class="token punctuation">)</span> args<span class="token punctuation">.</span>arg <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          mPendingStableInsets<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token class-name">Rect</span><span class="token punctuation">)</span> args<span class="token punctuation">.</span>arg <span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          mPendingDisplayCutout<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token class-name">DisplayCutout</span><span class="token punctuation">)</span> args<span class="token punctuation">.</span>arg <span class="token number">9</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          mPendingVisibleInsets<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token class-name">Rect</span><span class="token punctuation">)</span> args<span class="token punctuation">.</span>arg <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          mPendingOutsets<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token class-name">Rect</span><span class="token punctuation">)</span> args<span class="token punctuation">.</span>arg <span class="token number">7</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          mPendingBackDropFrame<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token class-name">Rect</span><span class="token punctuation">)</span> args<span class="token punctuation">.</span>arg <span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          mForceNextWindowRelayout <span class="token operator">=</span> args<span class="token punctuation">.</span>argi <span class="token number">1</span> <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+          mPendingAlwaysConsumeSystemBars <span class="token operator">=</span> args<span class="token punctuation">.</span>argi <span class="token number">2</span> <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+          args<span class="token punctuation">.</span><span class="token function">recycle</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+          <span class="token keyword">if</span> <span class="token punctuation">(</span>msg<span class="token punctuation">.</span>what <span class="token operator">==</span> <span class="token constant">MSG_RESIZED_REPORT</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">reportNextDraw</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token punctuation">}</span>
+
+          <span class="token keyword">if</span> <span class="token punctuation">(</span>mView <span class="token operator">!=</span> <span class="token keyword">null</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span>framesChanged <span class="token operator">||</span> configChanged<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">//尺寸发生变化，强制走 layout+draw 过程-----------&gt;Note2</span>
+            <span class="token function">forceLayout</span><span class="token punctuation">(</span>mView<span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token punctuation">}</span>
+          <span class="token comment">//重新 layout--------------&gt;Note3</span>
+          <span class="token function">requestLayout</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token comment">//...</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>上面代码列出了三个注意点，分别来看看：</p>
+<p><strong>Note 1</strong></p>
+<blockquote>
+<p>//arg 1—-&gt;Window 的尺寸<br>//arg 2—-&gt;内容区域限定边界<br>//arg 3—–&gt;可见区域的限定边界<br>//arg 6—–&gt;固定区域的限定边界<br>arg 是 Rect 类型</p>
+</blockquote>
+<p>“限定边界”是什么意思呢？以小米 6 测试机为例 (屏幕尺寸 1920 x 1080)：可以看出，所谓的”限定边界”实际上就是上面矩形区域。</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/MOu2ZNAwZwMdfb25nt76qmRW3aHYfib3Jcb824y8lXxDxZSyicd1YpSeBM9CIlIJ6yj3ibhExG2Af8qeopGTfnIlg/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p>
+<p>当键盘弹出时：</p>
+<ul>
+<li>arg 1—-&gt;Rect(0, 0 - 1080, 1920)</li>
+<li>arg 2—-&gt;Rect(0, 63 - 0, 972)</li>
+<li>arg 3—-&gt;Rect(0, 63 - 0, 972)</li>
+<li>arg 6—-&gt;Rect(0, 63 - 0, 126)</li>
+</ul>
+<p>当键盘收起后：</p>
+<ul>
+<li>arg 1—-&gt;Rect(0, 0 - 1080, 1920)</li>
+<li>arg 2—-&gt;Rect(0, 63 - 0, 126)</li>
+<li>arg 3—-&gt;Rect(0, 63 - 0, 126)</li>
+<li>arg 6—-&gt;Rect(0, 63 - 0, 126)</li>
+</ul>
+<p>看到此，大家都明白了：</p>
+<ul>
+<li>arg 1 表示的屏幕尺寸。</li>
+<li>arg 6 表示的是状态栏和导航栏的高度。</li>
+<li>arg 6 赋值给了 mPendingStableInsets，从名字可以看出，这值是不变的。</li>
+</ul>
+<p>无论键盘弹出还是关闭，这两个值都不变，变的是 arg 2 和 arg 3，而 arg 2 赋值给了 mPendingContentInsets，arg 3 赋值给了 mPendingVisibleInsets。好了，现在 arg 2、arg 3、arg 6 都记录到成员变量里了。</p>
+<p><strong>Note 2 &amp; 3</strong></p>
+<p>尺寸发生了变化后调用：</p>
+<p>forceLayout(mView)—&gt;ViewTree 里每个 View/ViewGroup 打上 layout, draw 标记，也就是说每个 View/ViewGroup 最后都会执行三大流程。</p>
+<p>requestLayout()—&gt; 触发执行三大流程</p>
+<p>既然记录了尺寸的变化，继续跟踪这些值怎么使用。调用 requestLayout() 将会触发执行 performTraversals() 方法：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">// ViewRootImpl.java</span>
+<span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">performTraversals</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>mFirst <span class="token operator">||</span> windowShouldResize <span class="token operator">||</span> insetsChanged <span class="token operator">||</span>
+      viewVisibilityChanged <span class="token operator">||</span> params <span class="token operator">!=</span> <span class="token keyword">null</span> <span class="token operator">||</span> mForceNextWindowRelayout<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">//...</span>
+    <span class="token keyword">boolean</span> hwInitialized <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    <span class="token comment">//内容边界是否发生变化</span>
+    <span class="token keyword">boolean</span> contentInsetsChanged <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+      <span class="token comment">//...</span>
+      <span class="token comment">//内容区域变化-----------&gt;Note 1</span>
+      contentInsetsChanged <span class="token operator">=</span> <span class="token operator">!</span>mPendingContentInsets<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>
+        mAttachInfo<span class="token punctuation">.</span>mContentInsets<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>contentInsetsChanged <span class="token operator">||</span> mLastSystemUiVisibility <span class="token operator">!=</span>
+          mAttachInfo<span class="token punctuation">.</span>mSystemUiVisibility <span class="token operator">||</span> mApplyInsetsRequested
+          <span class="token operator">||</span> mLastOverscanRequested <span class="token operator">!=</span> mAttachInfo<span class="token punctuation">.</span>mOverscanRequested
+          <span class="token operator">||</span> outsetsChanged<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">//...</span>
+        <span class="token comment">//分发 Inset-----------&gt;Note2</span>
+        <span class="token function">dispatchApplyInsets</span><span class="token punctuation">(</span>host<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        contentInsetsChanged <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      <span class="token comment">//...</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">RemoteException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">//...</span>
+  <span class="token punctuation">}</span>
+  <span class="token comment">//...</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>主要看两个点：</p>
+<p><strong>Note 1</strong>: 内容区域发生变化</p>
+<ul>
+<li>当设置 SOFT_INPUT_ADJUST_RESIZE，键盘弹起时内容区域发生变化，因此会执行 dispatchApplyInsets()</li>
+<li>当设置 SOFT_INPUT_ADJUST_PAN，键盘弹起时内容部区域不变，因此不会执行 dispatchApplyInsets()</li>
+</ul>
+<p><strong>Note 2</strong>: 分发 Inset</p>
+<p>这些记录的值会存储在 AttachInfo 对应的变量里。该方法调用栈如下：</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/MOu2ZNAwZwMdfb25nt76qmRW3aHYfib3Jia0cOnrqxNZMK6fz8Bwqiaouks0V0DgnV8gUpXHfhTKKBEq0fjJW6OEw/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p>
+<p>dispatchApplyWindowInsets(WindowInsets insets）里的 insets 构成是通过计算之前记录在 mPendingXx 里的边界值。</p>
+<p>最终调用 fitSystemWindowsInt():</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">// View.java</span>
+<span class="token keyword">private</span> <span class="token keyword">boolean</span> <span class="token function">fitSystemWindowsInt</span><span class="token punctuation">(</span><span class="token class-name">Rect</span> insets<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">//对于 DecorView 的子布局 LinearLayout 来说，默认 fitsSystemWindows=true</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>mViewFlags <span class="token operator">&amp;</span> <span class="token constant">FITS_SYSTEM_WINDOWS</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token constant">FITS_SYSTEM_WINDOWS</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">//...</span>
+    <span class="token comment">//设置 padding</span>
+    <span class="token function">internalSetPadding</span><span class="token punctuation">(</span>localInsets<span class="token punctuation">.</span>left<span class="token punctuation">,</span> localInsets<span class="token punctuation">.</span>top<span class="token punctuation">,</span> localInsets<span class="token punctuation">.</span>right<span class="token punctuation">,</span> localInsets<span class="token punctuation">.</span>bottom<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> res<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>看到这答案就呼之欲出了，DecorView 的子布局 LinearLayout 设置 padding，从而影响 LinearLayout 子布局的高度，最终会影响到 Activity 布局文件的高度。</p>
+<hr>
+<h2 id="SOFT-INPUT-ADJUST-PAN"><a href="#SOFT-INPUT-ADJUST-PAN" class="headerlink" title="SOFT_INPUT_ADJUST_PAN"></a>SOFT_INPUT_ADJUST_PAN</h2><table>
+<thead>
+<tr>
+<th><img src=" https://blog-1251678165.cos.ap-chengdu.myqcloud.com/uPic/ime-pan-1.gif" class="h-100"></th>
+<th><img src=" https://blog-1251678165.cos.ap-chengdu.myqcloud.com/uPic/ime-pan-2.gif" class="h-100"></th>
+<th><img src=" https://blog-1251678165.cos.ap-chengdu.myqcloud.com/uPic/ime-pan-3.gif" class="h-100"></th>
+</tr>
+</thead>
+</table>
+<p>软键盘弹出/关闭时，整个布局会上移，布局高度不会改变，布局中的控件不会重新布局。</p>
+<ul>
+<li>ADJUST_PAN 如何移动整个布局？</li>
+</ul>
+<p>当点击输入框 1 的时候，界面没有移动，当点击输入框 2 的时候，界面向上移动了。接下来将分析为啥会有这样的表现。</p>
+<h3 id="原理分析-1"><a href="#原理分析-1" class="headerlink" title="原理分析"></a>原理分析</h3><p><code>ADJUST_PAN</code> 和 <code>ADJUST_RESIZE</code> 流程差不多，也是在 ViewRootImpl 里接收窗口变化的通知，不同的是：</p>
+<p>当键盘弹起时：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">- arg <span class="token number">1</span>----<span class="token operator">&gt;</span>Rect<span class="token punctuation">(</span><span class="token number">0</span>, <span class="token number">0</span> - <span class="token number">1080</span>, <span class="token number">1920</span><span class="token punctuation">)</span>
+- arg <span class="token number">2</span>----<span class="token operator">&gt;</span>Rect<span class="token punctuation">(</span><span class="token number">0</span>, <span class="token number">63</span> - <span class="token number">0</span>, <span class="token number">126</span><span class="token punctuation">)</span>
+- arg <span class="token number">3</span>----<span class="token operator">&gt;</span>Rect<span class="token punctuation">(</span><span class="token number">0</span>, <span class="token number">63</span> - <span class="token number">0</span>, <span class="token number">972</span><span class="token punctuation">)</span>
+- arg <span class="token number">6</span>----<span class="token operator">&gt;</span>Rect<span class="token punctuation">(</span><span class="token number">0</span>, <span class="token number">63</span> - <span class="token number">0</span>, <span class="token number">126</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>可以看出 arg 2 没有变化，也就是内容区域没有变，最终不会执行 <code>ViewRootImp-&gt; dispatchApplyInsets(xx)</code> ，当然布局的高度就不会变。</p>
+<p>先来分析为什么点击输入框 2 能往上移动。我们知道布局移动无非就是坐标发生改变，或者内容滚动了，不管是何种形式最终都需要通过对 Canvas 进行位移才能实现移动的效果。</p>
+<p>当窗口事件到来之后，发起 View 的三大绘制流程，并且将限定边界存储到 AttachInfo 的成员变量里，有如下关系：</p>
+<ul>
+<li>mPendingContentInsets–&gt;mAttachInfo.mContentInsets;</li>
+<li>mPendingVisibleInsets–&gt;mAttachInfo.mVisibleInsets;</li>
+</ul>
+<p>依旧是从三大流程开启的方法开始分析。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">// ViewRootImpl.java</span>
+<span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">performTraversals</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">//...</span>
+  <span class="token comment">//在执行 Draw 过程之前执行</span>
+  <span class="token keyword">boolean</span> cancelDraw <span class="token operator">=</span> mAttachInfo<span class="token punctuation">.</span>mTreeObserver<span class="token punctuation">.</span><span class="token function">dispatchOnPreDraw</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">||</span> <span class="token operator">!</span>isViewVisible<span class="token punctuation">;</span>
+
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>cancelDraw<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">//...</span>
+    <span class="token comment">//开启 Draw 过程</span>
+    <span class="token function">performDraw</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    <span class="token comment">//...</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>performDraw() 最终执行了 scrollToRectOrFocus() 方法：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">// View.java</span>
+<span class="token keyword">boolean</span> <span class="token function">scrollToRectOrFocus</span><span class="token punctuation">(</span><span class="token class-name">Rect</span> rectangle<span class="token punctuation">,</span> <span class="token keyword">boolean</span> immediate<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">final</span> <span class="token class-name">Rect</span> ci <span class="token operator">=</span> mAttachInfo<span class="token punctuation">.</span>mContentInsets<span class="token punctuation">;</span> <span class="token comment">//窗口内容区域</span>
+  <span class="token keyword">final</span> <span class="token class-name">Rect</span> vi <span class="token operator">=</span> mAttachInfo<span class="token punctuation">.</span>mVisibleInsets<span class="token punctuation">;</span> <span class="token comment">//窗口可见区域</span>
+  <span class="token keyword">int</span> scrollY <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">//滚动距离</span>
+  <span class="token keyword">boolean</span> handled <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>vi<span class="token punctuation">.</span>left <span class="token operator">&gt;</span> ci<span class="token punctuation">.</span>left <span class="token operator">||</span> vi<span class="token punctuation">.</span>top <span class="token operator">&gt;</span> ci<span class="token punctuation">.</span>top <span class="token operator">||</span> vi<span class="token punctuation">.</span>right <span class="token operator">&gt;</span> ci<span class="token punctuation">.</span>right <span class="token operator">||</span> vi<span class="token punctuation">.</span>bottom <span class="token operator">&gt;</span> ci<span class="token punctuation">.</span>bottom<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    scrollY <span class="token operator">=</span> mScrollY<span class="token punctuation">;</span>
+    <span class="token comment">//找到当前有焦点的 View------------&gt;Note1</span>
+    <span class="token keyword">final</span> <span class="token class-name">View</span> focus <span class="token operator">=</span> mView<span class="token punctuation">.</span><span class="token function">findFocus</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">//...</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>focus <span class="token operator">==</span> lastScrolledFocus <span class="token operator">&amp;&amp;</span> <span class="token operator">!</span>mScrollMayChange <span class="token operator">&amp;&amp;</span> rectangle <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">//焦点没有发生切换，不做操作</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      mLastScrolledFocus <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">WeakReference</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">View</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span>focus<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      mScrollMayChange <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+
+      <span class="token comment">// Try to find the rectangle from the focus view.</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>focus<span class="token punctuation">.</span><span class="token function">getGlobalVisibleRect</span><span class="token punctuation">(</span>mVisRect<span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">//...</span>
+        <span class="token comment">//找到当前焦点与可见区域的相交部分</span>
+        <span class="token comment">//mVisRect 为当前焦点在 Window 里的可见部分</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>mTempRect<span class="token punctuation">.</span><span class="token function">intersect</span><span class="token punctuation">(</span>mVisRect<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token keyword">if</span> <span class="token punctuation">(</span>mTempRect<span class="token punctuation">.</span><span class="token function">height</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&gt;</span> <span class="token punctuation">(</span>mView<span class="token punctuation">.</span><span class="token function">getHeight</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">-</span>vi<span class="token punctuation">.</span>top<span class="token operator">-</span>vi<span class="token punctuation">.</span>bottom<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">//...</span>
+          <span class="token punctuation">}</span>
+          <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>mTempRect<span class="token punctuation">.</span>top <span class="token operator">&lt;</span> vi<span class="token punctuation">.</span>top<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">//如果当前焦点位置在窗口可见区域上边，说明焦点 View 应该往下移动到可见区域里边</span>
+            scrollY <span class="token operator">=</span> mTempRect<span class="token punctuation">.</span>top <span class="token operator">-</span> vi<span class="token punctuation">.</span>top<span class="token punctuation">;</span>
+          <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>mTempRect<span class="token punctuation">.</span>bottom <span class="token operator">&gt;</span> <span class="token punctuation">(</span>mView<span class="token punctuation">.</span><span class="token function">getHeight</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">-</span>vi<span class="token punctuation">.</span>bottom<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">//如果当前焦点位置在窗口可见区域之下，说明其应该往上移动到可见区域里边-------&gt;Note 2</span>
+            scrollY <span class="token operator">=</span> mTempRect<span class="token punctuation">.</span>bottom <span class="token operator">-</span> <span class="token punctuation">(</span>mView<span class="token punctuation">.</span><span class="token function">getHeight</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">-</span>vi<span class="token punctuation">.</span>bottom<span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            <span class="token comment">//无需滚动-------&gt;Note 3</span>
+            scrollY <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+          <span class="token punctuation">}</span>
+          handled <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>scrollY <span class="token operator">!=</span> mScrollY<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">//滚动距离发生变化</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>immediate<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>mScroller <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        mScroller <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Scroller</span><span class="token punctuation">(</span>mView<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      <span class="token comment">//开始设置滚动-----------&gt;Note 4</span>
+      mScroller<span class="token punctuation">.</span><span class="token function">startScroll</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> mScrollY<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> scrollY<span class="token operator">-</span>mScrollY<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>mScroller <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      mScroller<span class="token punctuation">.</span><span class="token function">abortAnimation</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">//赋值给成员变量</span>
+    mScrollY <span class="token operator">=</span> scrollY<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">return</span> handled<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li>Note 1: 对于上面的 Demo 来说，当前的焦点 View 就是 EditText，点击哪个 EditText，哪个就获得焦点。</li>
+<li>Note 2: 对于输入框 2 来说，因为键盘弹出会遮住它，通过计算满足”当前焦点位置在窗口可见区域之下，说明其应该往上移动到可见区域里边” 条件，因此 srolly &gt; 0</li>
+<li>Note 3: 而对于输入框 1 来说，当键盘弹出时，它没有被键盘遮挡，走到 else 分支，因此 scrollY = 0</li>
+<li>Note 4: 滚动是借助 <code>Scoller</code> 类完成的。</li>
+</ul>
+<p>上面的操作实际上就是为了确认滚动值，并记录在成员变量 <code>mScrollY</code> 里，继续来看如何使用滚动值呢？</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">//ViewRootImpl.java</span>
+<span class="token keyword">private</span> <span class="token keyword">boolean</span> <span class="token function">draw</span><span class="token punctuation">(</span><span class="token keyword">boolean</span> fullRedrawNeeded<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">//...</span>
+  <span class="token keyword">boolean</span> animating <span class="token operator">=</span> mScroller <span class="token operator">!=</span> <span class="token keyword">null</span> <span class="token operator">&amp;&amp;</span> mScroller<span class="token punctuation">.</span><span class="token function">computeScrollOffset</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">final</span> <span class="token keyword">int</span> curScrollY<span class="token punctuation">;</span>
+  <span class="token comment">//获取当前需要滚动的 scroll 值</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>animating<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    curScrollY <span class="token operator">=</span> mScroller<span class="token punctuation">.</span><span class="token function">getCurrY</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    curScrollY <span class="token operator">=</span> mScrollY<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token comment">//...</span>
+
+  <span class="token keyword">int</span> xOffset <span class="token operator">=</span> <span class="token operator">-</span>mCanvasOffsetX<span class="token punctuation">;</span>
+  <span class="token comment">//记录在 yOffset 里</span>
+  <span class="token keyword">int</span> yOffset <span class="token operator">=</span> <span class="token operator">-</span>mCanvasOffsetY <span class="token operator">+</span> curScrollY<span class="token punctuation">;</span>
+
+  <span class="token keyword">boolean</span> useAsyncReport <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>dirty<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">||</span> mIsAnimating <span class="token operator">||</span> accessibilityFocusDirty<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>mAttachInfo<span class="token punctuation">.</span>mThreadedRenderer <span class="token operator">!=</span> <span class="token keyword">null</span> <span class="token operator">&amp;&amp;</span> mAttachInfo<span class="token punctuation">.</span>mThreadedRenderer<span class="token punctuation">.</span><span class="token function">isEnabled</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">//...</span>
+      <span class="token comment">//对于走硬件加速绘制</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>mHardwareYOffset <span class="token operator">!=</span> yOffset <span class="token operator">||</span> mHardwareXOffset <span class="token operator">!=</span> xOffset<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">//记录偏移量到 mHardwareYOffset 里</span>
+        mHardwareYOffset <span class="token operator">=</span> yOffset<span class="token punctuation">;</span>
+        mHardwareXOffset <span class="token operator">=</span> xOffset<span class="token punctuation">;</span>
+        invalidateRoot <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      <span class="token comment">//...</span>
+      mAttachInfo<span class="token punctuation">.</span>mThreadedRenderer<span class="token punctuation">.</span><span class="token function">draw</span><span class="token punctuation">(</span>mView<span class="token punctuation">,</span> mAttachInfo<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      <span class="token comment">//软件绘制, 传入 yOffset</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">drawSoftware</span><span class="token punctuation">(</span>surface<span class="token punctuation">,</span> mAttachInfo<span class="token punctuation">,</span> xOffset<span class="token punctuation">,</span> yOffset<span class="token punctuation">,</span> scalingRequired<span class="token punctuation">,</span> dirty<span class="token punctuation">,</span> surfaceInsets<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+  <span class="token comment">//...</span>
+  <span class="token keyword">return</span> useAsyncReport<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>滚动值分别传递给了硬件加速绘制分支和软件绘制分支，在各自的分支里对 Canvas 进行平移。</p>
+<p><strong>小结</strong></p>
+<blockquote>
+<p>当设置 SOFT_INPUT_ADJUST_PAN 时，如果发现键盘遮住了当前有焦点的 View，那么会对 RootView (此处 Demo 里 DecorView 作为 RootView) 的 Canvas 进行平移，直至有焦点的 View 显示到可见区域为止。所以点击输入框 2 的时候布局会整体向上移动。</p>
+</blockquote>
+<p>同样的最后用图展示这种移动效果：</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/MOu2ZNAwZwMdfb25nt76qmRW3aHYfib3Jq9JWVIwcBIjEUXVLy3MxzianNoneysHbibxB8seS4H01b8Ln1qf2ziaDg/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p>
+<h2 id="SOFT-INPUT-ADJUST-NOTHING"><a href="#SOFT-INPUT-ADJUST-NOTHING" class="headerlink" title="SOFT_INPUT_ADJUST_NOTHING"></a>SOFT_INPUT_ADJUST_NOTHING</h2><p>软键盘弹出/关闭时，整个布局不会发生任何变化（不放 gif 图了）没有事件发出，自然不会产生任何效果了。</p>
+<hr>
+<h2 id="SOFT-INPUT-ADJUST-UNSPECIFIED"><a href="#SOFT-INPUT-ADJUST-UNSPECIFIED" class="headerlink" title="SOFT_INPUT_ADJUST_UNSPECIFIED"></a>SOFT_INPUT_ADJUST_UNSPECIFIED</h2><p>默认的效果与 SOFT_INPUT_ADJUST_PAN 一致。</p>
+<table>
+<thead>
+<tr>
+<th><img src=" https://blog-1251678165.cos.ap-chengdu.myqcloud.com/uPic/ime-pan-1.gif" class="h-100"></th>
+<th><img src=" https://blog-1251678165.cos.ap-chengdu.myqcloud.com/uPic/ime-pan-2.gif" class="h-100"></th>
+<th><img src=" https://blog-1251678165.cos.ap-chengdu.myqcloud.com/uPic/ime-pan-3.gif" class="h-100"></th>
+</tr>
+</thead>
+</table>
+<p>在 View 里增加 isScrollContainer 属性</p>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">android:isScrollContainer="true"<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>重新运行后效果如下：</p>
+<table>
+<thead>
+<tr>
+<th><img src=" https://blog-1251678165.cos.ap-chengdu.myqcloud.com/uPic/ime-resize-1.gif" class="h-100"></th>
+<th><img src=" https://blog-1251678165.cos.ap-chengdu.myqcloud.com/uPic/ime-resize-2.gif" class="h-100"></th>
+<th><img src=" https://blog-1251678165.cos.ap-chengdu.myqcloud.com/uPic/ime-resize-3.gif" class="h-100"></th>
+</tr>
+</thead>
+</table>
+<p>可以看到 <code>ADJUST_UNSPECIFIED</code> 模式下产生的效果可能与 <code>ADJUST_PAN</code> 相同，<code>也可能与 ADJUST_RESIZE</code> 相同。</p>
+<p>接下来就来分析 <code>选择的标准</code> 是什么？</p>
+<h3 id="原理分析-2"><a href="#原理分析-2" class="headerlink" title="原理分析"></a>原理分析</h3><p>从 <code>ViewRootImpl #performTraversals ()</code> 方法开始分析：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">performTraversals</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">//...</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>mFirst <span class="token operator">||</span> mAttachInfo<span class="token punctuation">.</span>mViewVisibilityChanged<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    mAttachInfo<span class="token punctuation">.</span>mViewVisibilityChanged <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> resizeMode <span class="token operator">=</span> mSoftInputMode <span class="token operator">&amp;</span> <span class="token class-name">WindowManager<span class="token punctuation">.</span>LayoutParams</span><span class="token punctuation">.</span><span class="token constant">SOFT_INPUT_MASK_ADJUST</span><span class="token punctuation">;</span>
+    <span class="token comment">//如果没有设置，那么默认为 0，即 SOFT_INPUT_ADJUST_UNSPECIFIED</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>resizeMode <span class="token operator">==</span> <span class="token class-name">WindowManager<span class="token punctuation">.</span>LayoutParams</span><span class="token punctuation">.</span><span class="token constant">SOFT_INPUT_ADJUST_UNSPECIFIED</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">//查看 mScrollContainers 数组中的元素 --&gt; Note 1</span>
+      <span class="token keyword">final</span> <span class="token keyword">int</span> <span class="token class-name">N</span> <span class="token operator">=</span> mAttachInfo<span class="token punctuation">.</span>mScrollContainers<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span> i<span class="token operator">&lt;</span><span class="token class-name">N</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>mAttachInfo<span class="token punctuation">.</span>mScrollContainers<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">isShown</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token comment">//如果有且 ScrollContainer=true 则设为 SOFT_INPUT_ADJUST_RESIZE 模式</span>
+          resizeMode <span class="token operator">=</span> <span class="token class-name">WindowManager<span class="token punctuation">.</span>LayoutParams</span><span class="token punctuation">.</span><span class="token constant">SOFT_INPUT_ADJUST_RESIZE</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>resizeMode <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">//如果没有设置为 resize 模式，则设置 pan 模式</span>
+        resizeMode <span class="token operator">=</span> <span class="token class-name">WindowManager<span class="token punctuation">.</span>LayoutParams</span><span class="token punctuation">.</span><span class="token constant">SOFT_INPUT_ADJUST_PAN</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>lp<span class="token punctuation">.</span>softInputMode <span class="token operator">&amp;</span> <span class="token class-name">WindowManager<span class="token punctuation">.</span>LayoutParams</span><span class="token punctuation">.</span><span class="token constant">SOFT_INPUT_MASK_ADJUST</span><span class="token punctuation">)</span> <span class="token operator">!=</span> resizeMode<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        lp<span class="token punctuation">.</span>softInputMode <span class="token operator">=</span> <span class="token punctuation">(</span>lp<span class="token punctuation">.</span>softInputMode <span class="token operator">&amp;</span> <span class="token operator">~</span><span class="token class-name">WindowManager<span class="token punctuation">.</span>LayoutParams</span><span class="token punctuation">.</span><span class="token constant">SOFT_INPUT_MASK_ADJUST</span><span class="token punctuation">)</span> <span class="token operator">|</span> resizeMode<span class="token punctuation">;</span>
+        <span class="token comment">//最后赋值给 params，让 Window 属性生效</span>
+        params <span class="token operator">=</span> lp<span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+  <span class="token comment">//...</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>Note 1: <code>mAttachInfo.mScrollContainers: ArrayList&lt;View&gt;</code> 即可滚动的 View list，什么时候添加元素进去的呢？</p>
+<p>调用 View #setScrollContainer 方法时会把 View 添加到 <code>mAttachInfo.mScrollContainers</code></p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">setScrollContainer</span><span class="token punctuation">(</span><span class="token keyword">boolean</span> isScrollContainer<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>isScrollContainer<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>mAttachInfo <span class="token operator">!=</span> <span class="token keyword">null</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span>mPrivateFlags<span class="token operator">&amp;</span><span class="token constant">PFLAG_SCROLL_CONTAINER_ADDED</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      mAttachInfo<span class="token punctuation">.</span>mScrollContainers<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// --&gt; add</span>
+      mPrivateFlags <span class="token operator">|=</span> <span class="token constant">PFLAG_SCROLL_CONTAINER_ADDED</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    mPrivateFlags <span class="token operator">|=</span> <span class="token constant">PFLAG_SCROLL_CONTAINER</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>mPrivateFlags<span class="token operator">&amp;</span><span class="token constant">PFLAG_SCROLL_CONTAINER_ADDED</span><span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      mAttachInfo<span class="token punctuation">.</span>mScrollContainers<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// --&gt; remove</span>
+    <span class="token punctuation">}</span>
+    mPrivateFlags <span class="token operator">&amp;=</span> <span class="token operator">~</span><span class="token punctuation">(</span><span class="token constant">PFLAG_SCROLL_CONTAINER</span><span class="token operator">|</span><span class="token constant">PFLAG_SCROLL_CONTAINER_ADDED</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>我们常用的 RecyclerView 就在构造函数里默认设置了该值。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token class-name">RecyclerView</span><span class="token punctuation">(</span><span class="token class-name">Context</span> context<span class="token punctuation">,</span> <span class="token class-name">AttributeSet</span> attrs<span class="token punctuation">,</span> <span class="token keyword">int</span> defStyle<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">setScrollContainer</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">//...</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>所以容器可以滚动的话，那么它的高度可以伸缩的，既然可以伸缩，那么刚好符合 SOFT_INPUT_ADJUST_RESIZE 模式，因此此种情况下会设置为 SOFT_INPUT_ADJUST_RESIZE 模式。</p>
+<h2 id="如何获取可见区域"><a href="#如何获取可见区域" class="headerlink" title="如何获取可见区域"></a>如何获取可见区域</h2><p>从前面的分析可以知道：状态栏、导航栏、屏幕可见区域、内容区域限定边界都是存储在如下变量里：</p>
+<blockquote>
+<p>AttachInfo.mStableInsets 状态栏导航栏<br>AttachInfo.mContentInsets 内容区域限定边界<br>AttachInfo.mVisibleInsets 可见区域限定边界</p>
+</blockquote>
+<p>fixme-能获取到上面的值，什么状态栏、导航栏、键盘高度获取不在话下。发现这些字段的访问权限是”default”，当然你想到了反射，没错反射是可以获取这些值，但是在 Android 10.0 之后不能反射了。</p>
+<p>反射行不通，还好 Android 还开了个口子：getWindowVisibleDisplayFrame()</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">getWindowVisibleDisplayFrame</span><span class="token punctuation">(</span><span class="token class-name">Rect</span> outRect<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>mAttachInfo <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+      <span class="token comment">//获取 Window 尺寸，注意此处的尺寸是包含状态栏、导航栏</span>
+      <span class="token comment">//与 getWindowManager().getDefaultDisplay().getRealSize()尺寸一致;</span>
+      mAttachInfo<span class="token punctuation">.</span>mSession<span class="token punctuation">.</span><span class="token function">getDisplayFrame</span><span class="token punctuation">(</span>mAttachInfo<span class="token punctuation">.</span>mWindow<span class="token punctuation">,</span> outRect<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">RemoteException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">//...</span>
+    <span class="token keyword">final</span> <span class="token class-name">Rect</span> insets <span class="token operator">=</span> mAttachInfo<span class="token punctuation">.</span>mVisibleInsets<span class="token punctuation">;</span>
+    <span class="token comment">//拿到可见区域(限定边界) 运算一下，将可见区域记录在 outRect(相对于屏幕)</span>
+    outRect<span class="token punctuation">.</span>left <span class="token operator">+=</span> insets<span class="token punctuation">.</span>left<span class="token punctuation">;</span>
+    outRect<span class="token punctuation">.</span>top <span class="token operator">+=</span> insets<span class="token punctuation">.</span>top<span class="token punctuation">;</span>
+    outRect<span class="token punctuation">.</span>right <span class="token operator">-=</span> insets<span class="token punctuation">.</span>right<span class="token punctuation">;</span>
+    outRect<span class="token punctuation">.</span>bottom <span class="token operator">-=</span> insets<span class="token punctuation">.</span>bottom<span class="token punctuation">;</span>
+    <span class="token keyword">return</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token comment">//...</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>拿到的 outRect 就是可见区域的位置坐标。</p>
+<p>到此我们明白了，屏幕尺寸我们是知道的，outRect 我们也知道了，反推 mAttachInfo.mVisibleInsets 也可以算出来了，这个值有了，键盘高度也就有了。曲线救国之路至此完成了。</p>
+<p>值得注意的是 <code>getWindowVisibleDisplayFrame()</code> 的计算依赖于 mAttachInfo.mVisibleInsets，而 <code>mAttachInfo.mVisibleInsets</code> 值发生变化的条件是设置了 <code>SOFT_INPUT_ADJUST_RESIZE</code> or <code>SOFT_INPUT_ADJUST_PAN</code> 模式。</p>
+<h2 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h2><p>通过前面的示例可以看出 adjustPan 体验不太友好，adjustResize 在某些情况下又会失效，且不能完全满足需求。</p>
+<p>adjustPan 和 adjustResize 都无法达到我们的高要求和兼容性，正如问题所说的，它们存在各种问题。</p>
+<p>而在 adjustNothing 模式下，软键盘弹出时，页面是完全不偏不移的，我们只要能在这种模式下监听到软键盘弹出、收起事件和高度，就能自行控制页面的内容偏移或者 resize。那么怎么才能监听到弹出、收起甚至得到准确高度？</p>
+<p>如果想做到完全可空，那么只有 adjustNothing 可选择，</p>
+<p>adjustNothing 是一个可怕的模式，它的意思是，当键盘弹出时，Activity 不做任何变形、偏移响应。 </p>
+<p>那么在 adjustNothing 模式下，我们如何接管软键盘逻辑？我们为什么要选择 adjustNothing？ </p>
+<p>纯纯写作采用的方式是：在 Activity 层上加入一层完全看不见的 Window，由这个 Window 来监听键盘变化，每一个 Window 都可以设置 softInputMode，因此它可以单独设置为 adjustResize，这样当这个 Window 本身被挤压时，我们就能判断和计算出键盘的状态了，进而再通知到编辑器 Activity。</p>
+<h3 id="弹出-关闭"><a href="#弹出-关闭" class="headerlink" title="弹出/关闭"></a>弹出/关闭</h3><h3 id="判断是否展示"><a href="#判断是否展示" class="headerlink" title="判断是否展示"></a>判断是否展示</h3><h2 id="优化补充"><a href="#优化补充" class="headerlink" title="优化补充"></a>优化补充</h2><p>现如果用户使用 FooView 浮窗组件，在 Android 9.0 之上将监听不到键盘状态。这是个坑 - 可以通过提供 Window type 解决</p>
+<!--这个方法曾经一度完全失效，是在 Android 9 开发者预览版的时候，Drakeet 发现了相关问题，并且向谷歌反馈，谷歌立马修复了它-->
+
+<h2 id="WindowInsets-Api"><a href="#WindowInsets-Api" class="headerlink" title="WindowInsets Api"></a>WindowInsets Api</h2><p>Android 11 的一些 Window Insets 相关内容提供了向下兼容： 附图是 Chris Banes 提供的示例，从图中可见，之后我们将不再需要调用一堆的 flags 和 setSystemUiVisibility(int) 了，新的接口 setDecorFitsSystemWindows 能够更方便的配置 DoctorView 是否 fit，这应该影响状态栏和导航栏区域 UI 的延伸。<br>另外，我们可以通过 ViewCompat.getRootWindowInsets(view) 来快捷获取 root insets 了，而且，ime 软键盘 insets API 也能同时获得兼容，终于，到 Android 11 时代，我们终于可以方便地获取键盘高度了？！<br>拭目以待。🌚 附：这是该 PR 的描述： </p>
+<ul>
+<li><p>Backport WindowInsetsCompat.getInsets(), getInsetsIgnoringVisibility and isVisible() APIs. </p>
+</li>
+<li><p>Works with both adjustResize and adjustPan </p>
+</li>
+<li><p>Backport WindowInsetsCompat.Builder APIs. </p>
+</li>
+<li><p>Also backports WindowCompat.setDecorFitsSystemWindows().</p>
+</li>
+<li><p>支持 WindowInsetsCompat.getInsets()、getInsetsIgnoringVisibility 和 isVisible()API。</p>
+</li>
+<li><p>与 adjustResize 和 adjustPan 一起工作。</p>
+</li>
+<li><p>回传 WindowInsetsCompat.Builder APIs。</p>
+</li>
+<li><p>同时备份 WindowCompat.setDecorFitsSystemWindows()。</p>
+</li>
+</ul>
+<p><img src="https://blog-1251678165.cos.ap-chengdu.myqcloud.com/uPic/H4cOzP.jpg" alt="H4cOzP"></p>
+<h3 id="setWindowInsetsAnimationCallback"><a href="#setWindowInsetsAnimationCallback" class="headerlink" title="setWindowInsetsAnimationCallback"></a>setWindowInsetsAnimationCallback</h3><p>onPrepare -&gt; onStart-&gt; onProgress… -&gt; onEnd</p>
+<p>弹出软键盘过程中 imeVisible 状态<br>onPrepare: false<br>onStart: true<br>onProgress: false -&gt; false -&gt; true… -&gt; true<br>onEnd: true</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token number">15</span>:16:46.726 D/SoftKeyboardWatcher: onPrepare: <span class="token assign-left variable">imeVisible</span><span class="token operator">=</span>false, <span class="token assign-left variable">imeHeight</span><span class="token operator">=</span><span class="token number">0</span>, <span class="token assign-left variable">navigationBarsHeight</span><span class="token operator">=</span><span class="token number">48</span>  
+<span class="token number">15</span>:16:46.744 D/SoftKeyboardWatcher: onStart: <span class="token assign-left variable">imeVisible</span><span class="token operator">=</span>true, <span class="token assign-left variable">imeHeight</span><span class="token operator">=</span><span class="token number">962</span>, <span class="token assign-left variable">navigationBarsHeight</span><span class="token operator">=</span><span class="token number">48</span>  
+<span class="token number">15</span>:16:46.747 D/SoftKeyboardWatcher: onProgress: <span class="token assign-left variable">imeVisible</span><span class="token operator">=</span>false, <span class="token assign-left variable">imeHeight</span><span class="token operator">=</span><span class="token number">0</span>, <span class="token assign-left variable">navigationBarsHeight</span><span class="token operator">=</span><span class="token number">48</span>  
+<span class="token number">15</span>:16:46.760 D/SoftKeyboardWatcher: onProgress: <span class="token assign-left variable">imeVisible</span><span class="token operator">=</span>false, <span class="token assign-left variable">imeHeight</span><span class="token operator">=</span><span class="token number">0</span>, <span class="token assign-left variable">navigationBarsHeight</span><span class="token operator">=</span><span class="token number">48</span>  
+<span class="token number">15</span>:16:46.764 D/SoftKeyboardWatcher: onProgress: <span class="token assign-left variable">imeVisible</span><span class="token operator">=</span>true, <span class="token assign-left variable">imeHeight</span><span class="token operator">=</span><span class="token number">14</span>, <span class="token assign-left variable">navigationBarsHeight</span><span class="token operator">=</span><span class="token number">48</span>  
+<span class="token number">15</span>:16:46.779 D/SoftKeyboardWatcher: onProgress: <span class="token assign-left variable">imeVisible</span><span class="token operator">=</span>true, <span class="token assign-left variable">imeHeight</span><span class="token operator">=</span><span class="token number">79</span>, <span class="token assign-left variable">navigationBarsHeight</span><span class="token operator">=</span><span class="token number">48</span>  
+<span class="token punctuation">..</span><span class="token punctuation">..</span>
+<span class="token number">15</span>:16:47.154 D/SoftKeyboardWatcher: onProgress: <span class="token assign-left variable">imeVisible</span><span class="token operator">=</span>true, <span class="token assign-left variable">imeHeight</span><span class="token operator">=</span><span class="token number">960</span>, <span class="token assign-left variable">navigationBarsHeight</span><span class="token operator">=</span><span class="token number">48</span>  
+<span class="token number">15</span>:16:47.171 D/SoftKeyboardWatcher: onProgress: <span class="token assign-left variable">imeVisible</span><span class="token operator">=</span>true, <span class="token assign-left variable">imeHeight</span><span class="token operator">=</span><span class="token number">961</span>, <span class="token assign-left variable">navigationBarsHeight</span><span class="token operator">=</span><span class="token number">48</span>  
+<span class="token number">15</span>:16:47.187 D/SoftKeyboardWatcher: onProgress: <span class="token assign-left variable">imeVisible</span><span class="token operator">=</span>true, <span class="token assign-left variable">imeHeight</span><span class="token operator">=</span><span class="token number">962</span>, <span class="token assign-left variable">navigationBarsHeight</span><span class="token operator">=</span><span class="token number">48</span>  
+<span class="token number">15</span>:16:47.188 D/SoftKeyboardWatcher: onEnd: <span class="token assign-left variable">imeVisible</span><span class="token operator">=</span>true, <span class="token assign-left variable">imeHeight</span><span class="token operator">=</span><span class="token number">962</span>, <span class="token assign-left variable">navigationBarsHeight</span><span class="token operator">=</span><span class="token number">48</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>收起软键盘过程中 imeVisible 状态<br>onPrepare: true<br>onStart: false<br>onProgress: true -&gt; true… -&gt; false<br>onEnd: false</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token number">15</span>:19:39.994 D/SoftKeyboardWatcher: onPrepare: <span class="token assign-left variable">imeVisible</span><span class="token operator">=</span>true, <span class="token assign-left variable">imeHeight</span><span class="token operator">=</span><span class="token number">962</span>, <span class="token assign-left variable">navigationBarsHeight</span><span class="token operator">=</span><span class="token number">48</span>  
+<span class="token number">15</span>:19:40.026 D/SoftKeyboardWatcher: onStart: <span class="token assign-left variable">imeVisible</span><span class="token operator">=</span>false, <span class="token assign-left variable">imeHeight</span><span class="token operator">=</span><span class="token number">0</span>, <span class="token assign-left variable">navigationBarsHeight</span><span class="token operator">=</span><span class="token number">48</span>  
+<span class="token number">15</span>:19:40.028 D/SoftKeyboardWatcher: onProgress: <span class="token assign-left variable">imeVisible</span><span class="token operator">=</span>true, <span class="token assign-left variable">imeHeight</span><span class="token operator">=</span><span class="token number">962</span>, <span class="token assign-left variable">navigationBarsHeight</span><span class="token operator">=</span><span class="token number">48</span>  
+<span class="token number">15</span>:19:40.045 D/SoftKeyboardWatcher: onProgress: <span class="token assign-left variable">imeVisible</span><span class="token operator">=</span>true, <span class="token assign-left variable">imeHeight</span><span class="token operator">=</span><span class="token number">962</span>, <span class="token assign-left variable">navigationBarsHeight</span><span class="token operator">=</span><span class="token number">48</span>  
+<span class="token number">15</span>:19:40.060 D/SoftKeyboardWatcher: onProgress: <span class="token assign-left variable">imeVisible</span><span class="token operator">=</span>true, <span class="token assign-left variable">imeHeight</span><span class="token operator">=</span><span class="token number">947</span>, <span class="token assign-left variable">navigationBarsHeight</span><span class="token operator">=</span><span class="token number">48</span>  
+<span class="token number">15</span>:19:40.077 D/SoftKeyboardWatcher: onProgress: <span class="token assign-left variable">imeVisible</span><span class="token operator">=</span>true, <span class="token assign-left variable">imeHeight</span><span class="token operator">=</span><span class="token number">882</span>, <span class="token assign-left variable">navigationBarsHeight</span><span class="token operator">=</span><span class="token number">48</span>  
+<span class="token punctuation">..</span><span class="token punctuation">..</span>
+<span class="token number">15</span>:19:40.439 D/SoftKeyboardWatcher: onProgress: <span class="token assign-left variable">imeVisible</span><span class="token operator">=</span>true, <span class="token assign-left variable">imeHeight</span><span class="token operator">=</span><span class="token number">2</span>, <span class="token assign-left variable">navigationBarsHeight</span><span class="token operator">=</span><span class="token number">48</span>  
+<span class="token number">15</span>:19:40.456 D/SoftKeyboardWatcher: onProgress: <span class="token assign-left variable">imeVisible</span><span class="token operator">=</span>true, <span class="token assign-left variable">imeHeight</span><span class="token operator">=</span><span class="token number">1</span>, <span class="token assign-left variable">navigationBarsHeight</span><span class="token operator">=</span><span class="token number">48</span>  
+<span class="token number">15</span>:19:40.478 D/SoftKeyboardWatcher: onProgress: <span class="token assign-left variable">imeVisible</span><span class="token operator">=</span>false, <span class="token assign-left variable">imeHeight</span><span class="token operator">=</span><span class="token number">0</span>, <span class="token assign-left variable">navigationBarsHeight</span><span class="token operator">=</span><span class="token number">48</span>  
+<span class="token number">15</span>:19:40.479 D/SoftKeyboardWatcher: onEnd: <span class="token assign-left variable">imeVisible</span><span class="token operator">=</span>false, <span class="token assign-left variable">imeHeight</span><span class="token operator">=</span><span class="token number">0</span>, <span class="token assign-left variable">navigationBarsHeight</span><span class="token operator">=</span><span class="token number">48</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+<h2 id="错误纠正"><a href="#错误纠正" class="headerlink" title="错误纠正"></a>错误纠正</h2><p><del>可以看出，EditText 随着键盘顶上去了，ImageView 随着键盘顶上去了。</del></p>
+<p>（实际上以上布局仅仅是扩大了 ImageView 展示范围 - 表述有误，并不是单纯扩大范围，而是让 ImageView 和 EditText 占满父控件）</p>
+<h2 id="Links"><a href="#Links" class="headerlink" title="Links"></a>Links</h2><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/7064175843840360462"># Android 监听软键盘的高度并解决其覆盖输入框的问题</a><br><a target="_blank" rel="noopener" href="https://juejin.im/post/5ef850c9f265da231019f6e4"># 这交互炸了系列： 仿微信键盘弹出体验</a><br><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/6VJALLA1bAFSujkZkdSNVQ"># Android 软键盘的那些坑，原理篇来了！</a><br><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzAxMTI4MTkwNQ==&amp;mid=2650835965&amp;idx=1&amp;sn=94d8776faa38a0c0f7a90e7951c11303"># Android 软键盘的那些坑，一招搞定！</a><br><a target="_blank" rel="noopener" href="https://github.com/liangjingkanji/soft-input-event">liangjingkanji/soft-input-event</a><br><a target="_blank" rel="noopener" href="https://github.com/android/user-interface-samples/tree/main/WindowInsetsAnimation">android/user-interface-samples/WindowInsetsAnimation</a></p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Weikeet</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://www.blog.weikeet.cc/20220620/android-softkeyboard/">https://www.blog.weikeet.cc/20220620/android-softkeyboard/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">Weikeet</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/Android/">
+                                    <span class="chip bg-color">Android</span>
+                                </a>
+                            
+                                <a href="/tags/WindowInsets/">
+                                    <span class="chip bg-color">WindowInsets</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/medias/reward/alipay.png" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+        <style>
+    .valine-card {
+        margin: 1.5rem auto;
+    }
+
+    .valine-card .card-content {
+        padding: 20px 20px 5px 20px;
+    }
+
+    #vcomments textarea {
+        box-sizing: border-box;
+        background: url("/medias/comment_bg.png") 100% 100% no-repeat;
+    }
+
+    #vcomments p {
+        margin: 2px 2px 10px;
+        font-size: 1.05rem;
+        line-height: 1.78rem;
+    }
+
+    #vcomments blockquote p {
+        text-indent: 0.2rem;
+    }
+
+    #vcomments a {
+        padding: 0 2px;
+        color: #4cbf30;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    #vcomments img {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+    }
+
+    #vcomments ol li {
+        list-style-type: decimal;
+    }
+
+    #vcomments ol,
+    ul {
+        display: block;
+        padding-left: 2em;
+        word-spacing: 0.05rem;
+    }
+
+    #vcomments ul li,
+    ol li {
+        display: list-item;
+        line-height: 1.8rem;
+        font-size: 1rem;
+    }
+
+    #vcomments ul li {
+        list-style-type: disc;
+    }
+
+    #vcomments ul ul li {
+        list-style-type: circle;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    #vcomments table, th, td {
+        border: 0;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments h1 {
+        font-size: 1.85rem;
+        font-weight: bold;
+        line-height: 2.2rem;
+    }
+
+    #vcomments h2 {
+        font-size: 1.65rem;
+        font-weight: bold;
+        line-height: 1.9rem;
+    }
+
+    #vcomments h3 {
+        font-size: 1.45rem;
+        font-weight: bold;
+        line-height: 1.7rem;
+    }
+
+    #vcomments h4 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    #vcomments h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.4rem;
+    }
+
+    #vcomments h6 {
+        font-size: 1rem;
+        line-height: 1.3rem;
+    }
+
+    #vcomments p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    #vcomments hr {
+        margin: 12px 0;
+        border: 0;
+        border-top: 1px solid #ccc;
+    }
+
+    #vcomments blockquote {
+        margin: 15px 0;
+        border-left: 5px solid #42b983;
+        padding: 1rem 0.8rem 0.3rem 0.8rem;
+        color: #666;
+        background-color: rgba(66, 185, 131, .1);
+    }
+
+    #vcomments pre {
+        font-family: monospace, monospace;
+        padding: 1.2em;
+        margin: .5em 0;
+        background: #272822;
+        overflow: auto;
+        border-radius: 0.3em;
+        tab-size: 4;
+    }
+
+    #vcomments code {
+        font-family: monospace, monospace;
+        padding: 1px 3px;
+        font-size: 0.92rem;
+        color: #e96900;
+        background-color: #f8f8f8;
+        border-radius: 2px;
+    }
+
+    #vcomments pre code {
+        font-family: monospace, monospace;
+        padding: 0;
+        color: #e8eaf6;
+        background-color: #272822;
+    }
+
+    #vcomments pre[class*="language-"] {
+        padding: 1.2em;
+        margin: .5em 0;
+    }
+
+    #vcomments code[class*="language-"],
+    pre[class*="language-"] {
+        color: #e8eaf6;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+
+    #vcomments b,
+    strong {
+        font-weight: bold;
+    }
+
+    #vcomments dfn {
+        font-style: italic;
+    }
+
+    #vcomments small {
+        font-size: 85%;
+    }
+
+    #vcomments cite {
+        font-style: normal;
+    }
+
+    #vcomments mark {
+        background-color: #fcf8e3;
+        padding: .2em;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+</style>
+
+<div class="card valine-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="vcomments" class="card-content" style="display: grid">
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/valine/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/valine/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: 'orsSeN9tLirrMORe4CklaXEN-gzGzoHsz',
+        appKey: 'wOCnGVsLjb2wsCTDhhMvAPCr',
+        notify: 'false' === 'true',
+        verify: 'false' === 'true',
+        visitor: 'true' === 'true',
+        avatar: 'mm',
+        pageSize: '10',
+        lang: 'zh-cn',
+        placeholder: 'just go go'
+    });
+</script>
+
+<!--酷Q推送-->
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/20220918/mac-dev-setup/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/medias/featureimages/7640889_76172401.png" class="responsive-img" alt="Mac 开发环境自动部署">
+                        
+                        <span class="card-title">Mac 开发环境自动部署</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-09-18
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Weikeet
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Mac/">
+                        <span class="chip bg-color">Mac</span>
+                    </a>
+                    
+                    <a href="/tags/Shell/">
+                        <span class="chip bg-color">Shell</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/20220325/android-windowinsets/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/medias/featureimages/3367474_75470755.png" class="responsive-img" alt="Android WindowInsets 分析和最佳实践">
+                        
+                        <span class="card-title">Android WindowInsets 分析和最佳实践</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-25
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Weikeet
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Android/">
+                        <span class="chip bg-color">Android</span>
+                    </a>
+                    
+                    <a href="/tags/WindowInsets/">
+                        <span class="chip bg-color">WindowInsets</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2015-2024</span>
+            
+            <span id="year">2015</span>
+            <a href="/about" target="_blank">Weikeet</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+                <span id="sitetime"> Loading ...</span>
+                <script>
+                    var calcSiteTime = function () {
+                        var seconds = 1000;
+                        var minutes = seconds * 60;
+                        var hours = minutes * 60;
+                        var days = hours * 24;
+                        var years = days * 365;
+                        var today = new Date();
+                        var startYear = "2015";
+                        var startMonth = "11";
+                        var startDate = "24";
+                        var startHour = "0";
+                        var startMinute = "0";
+                        var startSecond = "0";
+                        var todayYear = today.getFullYear();
+                        var todayMonth = today.getMonth() + 1;
+                        var todayDate = today.getDate();
+                        var todayHour = today.getHours();
+                        var todayMinute = today.getMinutes();
+                        var todaySecond = today.getSeconds();
+                        var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                        var diff = t2 - t1;
+                        var diffYears = Math.floor(diff / years);
+                        var diffDays = Math.floor((diff / days) - diffYears * 365);
+
+                        // 区分是否有年份.
+                        var language = 'zh-CN';
+                        if (startYear === String(todayYear)) {
+                            document.getElementById("year").innerHTML = todayYear;
+                            var daysTip = 'This site has been running for ' + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                daysTip = '本站已运行 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                daysTip = '本站已運行 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = daysTip;
+                        } else {
+                            document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                            var yearsAndDaysTip = 'This site has been running for ' + diffYears + ' years and '
+                                + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                yearsAndDaysTip = '本站已运行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                yearsAndDaysTip = '本站已運行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = yearsAndDaysTip;
+                        }
+                    }
+
+                    calcSiteTime();
+                </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/Weikeet" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:Weikeet@foxmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1570682285" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1570682285" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/materialize/materialize.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/aos/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/js/matery.js"></script>
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    
+    <script async src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

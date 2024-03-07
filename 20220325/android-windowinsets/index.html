@@ -1,0 +1,1739 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="Android WindowInsets 分析和最佳实践, Weikeet">
+    <meta name="description" content="降りしきる強い雨, 描いた夢の果て">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-85513822-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+    gtag('config', 'UA-85513822-1');
+</script>
+
+
+    <title>Android WindowInsets 分析和最佳实践 | Weikeet</title>
+    <link rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/css/my.css">
+
+    <script src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 5.4.2">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="Weikeet" type="application/atom+xml">
+</head>
+
+
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Weikeet</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Weikeet</div>
+        <div class="logo-desc">
+            
+            降りしきる強い雨, 描いた夢の果て
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+<script src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/medias/featureimages/3367474_75470755.png')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">Android WindowInsets 分析和最佳实践</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Android/">
+                                <span class="chip bg-color">Android</span>
+                            </a>
+                        
+                            <a href="/tags/WindowInsets/">
+                                <span class="chip bg-color">WindowInsets</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2022-03-25
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2022-05-10
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    3.2k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    13 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/prism/prism.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h2 id="什么是-Insets"><a href="#什么是-Insets" class="headerlink" title="什么是 Insets"></a>什么是 Insets</h2><p>屏幕上除了开发者 app 绘制的内容还有系统的 Insets（插入物），Insets 区域负责描述屏幕的哪些部分会与系统 UI 相交。如 <code>Starus bar</code> 或 <code>Navigation bar</code>：<br><img src="https://blog-1251678165.cos.ap-chengdu.myqcloud.com/hGnYQS.jpg"></p>
+<blockquote>
+<p>常见的 Insets 有：</p>
+<ul>
+<li>  <code>STATUS_BAR</code>，用于展示系统时间，电量，wifi 等信息</li>
+<li>  <code>NAVIGATION_BAR</code>，虚拟导航栏（区别于实体的三大金刚键），形态有三大金刚键导航，手势导航两种。（有些设备形态如 TV 没有导航栏）</li>
+<li>  <code>IME</code>，软键盘，用于输入文字</li>
+</ul>
+</blockquote>
+<p>其中 <code>STATUS_BAR</code> 与 <code>NAVIGATION_BAR</code> 又被称为 <code>System bar</code>。</p>
+<p><strong>如果开发者绘制的内容出现在了系统 UI 区域内，就可能出现视觉与手势的冲突。开发者可以借助 Insets 把 view 从屏幕边缘向内移动到一个合适的位置。</strong></p>
+<p>在源码中，Insets 对象拥有 4 个 int 值，用于描述矩形四个边的偏移：<br><img src="https://blog-1251678165.cos.ap-chengdu.myqcloud.com/QAWAQc.jpg" alt="QAWAQc"></p>
+<blockquote>
+<p>📢 注意：不要把 Insets 的 <code>top</code> ，<code>bottom</code>，<code>left</code>，<code>right</code> 与 Rect 的搞混，前者描述的是<strong>偏移</strong>，后者是<strong>坐标</strong>。</p>
+</blockquote>
+<p>关于 Insets 更详尽的信息，可以 <a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904006343458830" title="https://juejin.cn/post/6844904006343458830">查看这篇文章</a>。</p>
+<h2 id="setSystemUiVisibility-与-WTFs"><a href="#setSystemUiVisibility-与-WTFs" class="headerlink" title="setSystemUiVisibility 与 WTFs"></a>setSystemUiVisibility 与 WTFs</h2><p>View 的源码中有一个 <code>setSystemUiVisibility()</code> 的方法，虽然<strong>该方法在 Android 11 已被弃用</strong>，但按照本专栏的一贯风格，我们还是要来介绍一下该方法。</p>
+<p>有些场景开发者可能希望 app 的内容可以绘制到状态栏或导航栏的区域以提供更好的用户体验，因此系统提供了 <code>setSystemUiVisibility</code> 方法，开发者可以通过向该方法传入不同的 flag 以应对不同的使用场景。</p>
+<p>这些 flag 被称为 <code>Window Transform Flags</code>，简称 WTFs（滑稽脸😏），同样的，它们在 Android 11 中被弃用。常用的 flag 如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">SYSTEM_UI_FLAG_VISIBLE
+SYSTEM_UI_FLAG_LOW_PROFILE
+SYSTEM_UI_FLAG_HIDEN_NAVIGATION
+SYSTEM_UI_FLAG_FULLSCREEN
+
+SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+SYSTEM_UI_FLAG_IMMERSIVE
+
+SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+
+SYSTEM_UI_FLAG_LAYOUT_STABLE
+SYSTEM_UI_FLAG_LAYOUT_HIDEN_NAVIGATION
+SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>如果想了解这些 flag 的效果可以参考 <a target="_blank" rel="noopener" href="https://blog.csdn.net/QQxiaoqiang1573/article/details/79867127"># Android setSystemUiVisibility详解</a>。</p>
+<h2 id="System-bar-能力变化史"><a href="#System-bar-能力变化史" class="headerlink" title="System bar 能力变化史"></a>System bar 能力变化史</h2><h3 id="Android-4-4-之前"><a href="#Android-4-4-之前" class="headerlink" title="Android 4.4 之前"></a>Android 4.4 之前</h3><p>用户内容显示在 <code>System bar</code> 之间，即下图红框所在区域：<br><img src="https://blog-1251678165.cos.ap-chengdu.myqcloud.com/2cq336.jpg" alt="2cq336"></p>
+<p>开发者可以使用 <code>setSystemUiVisibility</code> 方法将内容绘制到状态栏后面，下图红框区域：<br><img src="https://blog-1251678165.cos.ap-chengdu.myqcloud.com/voT6SW.jpg" alt="voT6SW"></p>
+<h3 id="Android-4-4"><a href="#Android-4-4" class="headerlink" title="Android 4.4"></a>Android 4.4</h3><p>Android 4.4 引入了 <code>android:windowTranslucentStatus</code> 和 <code>android:windowTranslucentNavigation</code> ，允许开发者将 <code>System bar</code> 设置成透明：<br><img src="https://blog-1251678165.cos.ap-chengdu.myqcloud.com/65mvhq.jpg" alt="65mvhq"></p>
+<blockquote>
+<p><code>System bar</code> background 是由 WindowManager 绘制的（利用 Window 的 flag）</p>
+</blockquote>
+<h3 id="Android-5-0"><a href="#Android-5-0" class="headerlink" title="Android 5.0"></a>Android 5.0</h3><p>之前版本 <code>System bar</code> 都是由 WindowManager 绘制的，在 Android 5.0，引入了 <code>android:windowDrawsSystemBarBackgrounds</code>，当 <code>windowDrawsSystemBarBackgrounds</code> 为 true（默认值） 时，<code>System bar</code> 的 background 在 Window 内部。如下图：<br><img src="https://blog-1251678165.cos.ap-chengdu.myqcloud.com/7tQy0G.jpg" alt="7tQy0G"></p>
+<p>开发者可以调用 Window 的方法为 <code>System bar</code> 设置颜色：<br><img src="https://blog-1251678165.cos.ap-chengdu.myqcloud.com/vFsSjI.jpg" alt="vFsSjI"><br><img src="https://blog-1251678165.cos.ap-chengdu.myqcloud.com/tpnKKz.jpg" alt="tpnKKz"></p>
+<blockquote>
+<p>📢<strong>注意</strong>：<code>windowTranslucentStatus</code> 和 <code>windowTranslucentNavigation</code> <strong>要比为 <code>System bar</code> 设置自定义颜色的优先级更高</strong>。</p>
+<p>当 <code>windowTranslucentStatus</code> 或 <code>windowTranslucentNavigation</code> 设置为 true 后会导致 <code>windowDrawsSystemBarBackgrounds</code> 为 <strong>false</strong>，<code>System bar</code> background 由 WindowManager 接管。</p>
+</blockquote>
+<p>自 Android 5.0 后，当 <code>windowDrawsSystemBarBackgrounds</code> 为 true 时，<code>System bar</code> 作为 window 的一部分。换言之，DecorView（FrameLayout 子类）有<strong>三个</strong>子 View：显示 App 内容的 LinearLayout 以及 <code>Status bar</code> 和 <code>Navigation bar</code>。</p>
+<p>默认情况下，App 的内容显示在 <code>System bar</code> 中间。</p>
+<p>理论上，显示 App 内容的 LinearLayout 应该充满屏幕，<strong>系统使用了 paddingTop 和 marginBottom 为 <code>System bar</code> 预留出了空间</strong>。<br><img src="https://blog-1251678165.cos.ap-chengdu.myqcloud.com/1WZMbK.jpg" alt="1WZMbK"></p>
+<p>那么 App 的内容区域是如何绘制到 <code>System bar</code> 后面的？很简单，<strong>LinearLayout 没有 padding 和 margin（我们在后文介绍原理）</strong>，充满屏幕：<br><img src="https://blog-1251678165.cos.ap-chengdu.myqcloud.com/0zX8PF.jpg" alt="0zX8PF"></p>
+<h3 id="Android-10"><a href="#Android-10" class="headerlink" title="Android 10"></a>Android 10</h3><p>随着全面屏设备的普及，越来越多的 Android 设备突破了 16:9 的限制，Android 10 推出了新的导航模式：手势导航。<br><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/551e6750903b4e309fdd9c1558fc3322~tplv-k3u1fbpfcp-watermark.awebp"></p>
+<p>新的手势导航与原来的三大金刚键的 <code>Navigation bar</code> 一样，只不过高度变小了。<br><img src="https://blog-1251678165.cos.ap-chengdu.myqcloud.com/HpzE2F.jpg" alt="HpzE2F"></p>
+<p>如果 <code>Navigation bar</code> 是透明的，底部的「小白条」是可以跟随背景动态改变颜色的（与 iOS 一样，不知道谁抄的谁🤣）<br><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c883a2db5a174d29888773b53506318d~tplv-k3u1fbpfcp-watermark.awebp"></p>
+<h3 id="Android-11"><a href="#Android-11" class="headerlink" title="Android 11"></a>Android 11</h3><p>Android 11 引入了 <code>WindowInsetsAnimation</code> 允许监听 Insets 的变化进度，使用户体验更加丝滑。<br><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/541f8f3b1c1f486d9015214ff9bc53c7~tplv-k3u1fbpfcp-watermark.awebp"></p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>为了方便开发者更合理地使用设备屏幕绘制内容，Android 在历代版本不断迭代 <code>System bar</code> 控制的 API，功能越来越完善。</p>
+<p>当开发者将 App 内容绘制到 <code>System bar</code> 后面时要考虑视觉冲突和手势冲突。</p>
+<p>为了防止 App 内容区域与 <code>System bar</code> 发生视觉冲突，官方提供了两种 API， <code>WidowInsets</code> 与 <code>fitsSystemWindows</code> 。</p>
+<h2 id="WindowInsets"><a href="#WindowInsets" class="headerlink" title="WindowInsets"></a>WindowInsets</h2><p><code>WindowInsets</code> 描述了一组 Window Content 的 Insets，未来可能会继续添加新的 Insets 类型。目前已有的 Insets 类型有：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">package</span> <span class="token namespace">androidx<span class="token punctuation">.</span>core<span class="token punctuation">.</span>view</span><span class="token punctuation">;</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">WindowInsetsCompat</span> <span class="token punctuation">{</span>
+
+	<span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">class</span> <span class="token class-name">Type</span> <span class="token punctuation">{</span>  
+	    <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> <span class="token constant">FIRST</span> <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>  
+	    <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> <span class="token constant">STATUS_BARS</span> <span class="token operator">=</span> <span class="token constant">FIRST</span><span class="token punctuation">;</span>  
+	    <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> <span class="token constant">NAVIGATION_BARS</span> <span class="token operator">=</span> <span class="token number">1</span> <span class="token operator">&lt;&lt;</span> <span class="token number">1</span><span class="token punctuation">;</span>  
+	    <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> <span class="token constant">CAPTION_BAR</span> <span class="token operator">=</span> <span class="token number">1</span> <span class="token operator">&lt;&lt;</span> <span class="token number">2</span><span class="token punctuation">;</span>  
+	  
+	    <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> <span class="token constant">IME</span> <span class="token operator">=</span> <span class="token number">1</span> <span class="token operator">&lt;&lt;</span> <span class="token number">3</span><span class="token punctuation">;</span>  
+	  
+	    <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> <span class="token constant">SYSTEM_GESTURES</span> <span class="token operator">=</span> <span class="token number">1</span> <span class="token operator">&lt;&lt;</span> <span class="token number">4</span><span class="token punctuation">;</span>  
+	    <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> <span class="token constant">MANDATORY_SYSTEM_GESTURES</span> <span class="token operator">=</span> <span class="token number">1</span> <span class="token operator">&lt;&lt;</span> <span class="token number">5</span><span class="token punctuation">;</span>  
+	    <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> <span class="token constant">TAPPABLE_ELEMENT</span> <span class="token operator">=</span> <span class="token number">1</span> <span class="token operator">&lt;&lt;</span> <span class="token number">6</span><span class="token punctuation">;</span>  
+	  
+	    <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> <span class="token constant">DISPLAY_CUTOUT</span> <span class="token operator">=</span> <span class="token number">1</span> <span class="token operator">&lt;&lt;</span> <span class="token number">7</span><span class="token punctuation">;</span>  
+	  
+	    <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> <span class="token constant">LAST</span> <span class="token operator">=</span> <span class="token number">1</span> <span class="token operator">&lt;&lt;</span> <span class="token number">8</span><span class="token punctuation">;</span>  
+	    <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> <span class="token constant">SIZE</span> <span class="token operator">=</span> <span class="token number">9</span><span class="token punctuation">;</span>  
+	    <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> <span class="token constant">WINDOW_DECOR</span> <span class="token operator">=</span> <span class="token constant">LAST</span><span class="token punctuation">;</span>  
+	  
+	    <span class="token keyword">private</span> <span class="token class-name">Type</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+	<span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>使用位运算管理状态是很常见并高效的方式，如果对这部分内容不了解，可以移步 <a target="_blank" rel="noopener" href="https://juejin.cn/user/1081575170900958/posts">KunMinX</a> 的 <a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903879155384333">这篇文章 就算不去火星种土豆，也请务必掌握的 Android 状态管理最佳实践！</a> 入门</p>
+<p><code>System bar</code> 包括 <code>Status bar</code>，<code>Navigation bar</code>，<code>Caption bar</code>，但<strong>不包括软键盘</strong>（<code>ime</code>）<br><img src="https://blog-1251678165.cos.ap-chengdu.myqcloud.com/WymOx4.jpg" alt="WymOx4"></p>
+<h3 id="onApplyWindowInsets-与-setOnApplyWindowInsetsListener"><a href="#onApplyWindowInsets-与-setOnApplyWindowInsetsListener" class="headerlink" title="onApplyWindowInsets 与 setOnApplyWindowInsetsListener"></a>onApplyWindowInsets 与 setOnApplyWindowInsetsListener</h3><p>开发者可以通过在自定义 View 中重写 <code>onApplyWindowInsets()</code> 方法或调用 <code>setOnApplyWindowInsetsListener()</code> 来监听 <code>WindowInsets</code> 的变化，通过对 View 添加 <code>margin</code> 或 <code>padding</code> 的方式处理解决冲突。</p>
+<p>这两个方法是互斥的，当存在 <code>OnApplyWindowInsetsListener</code> 时不会执行 <code>onApplyWindowInsets</code>：<br><img src="https://blog-1251678165.cos.ap-chengdu.myqcloud.com/ZrAubd.jpg" alt="ZrAubd"></p>
+<blockquote>
+<p>开发者可以在也可 <code>OnApplyWindowInsetsListener</code> 手动调用 <code>onApplyWindowInsets</code> 使两个方法同时被执行。</p>
+</blockquote>
+<h3 id="WindowInsets-分发"><a href="#WindowInsets-分发" class="headerlink" title="WindowInsets 分发"></a>WindowInsets 分发</h3><p>前文我们提到，如果开发者绘制的内容出现在了系统 UI 区域内，就可能出现视觉与手势的冲突。开发者可以借助 Insets 把 view 从屏幕边缘向内移动到一个合适的位置，此时 <code>View#onApplyWindowInsets()</code> 会被调用。那么这些 Insets 是如何分发给 View 的呢？</p>
+<p>笔者在 <a target="_blank" rel="noopener" href="https://juejin.cn/post/6911176251495579655" title="https://juejin.cn/post/6911176251495579655">View 事件分发机制，大型职场 PUA 现场</a> 一文中把 Android 的视图树抽象为 <strong>N 叉树</strong>。</p>
+<p>与 View 的事件分发一样，<code>WindowInsets</code> 的分发也是 N 叉树的遍历过程：</p>
+<p>从 N 叉树的根节点（DecoView）开始，按照 <strong>深度优先</strong> 的方式分发给 子 view。</p>
+<p>Android 10 和 Android 11 两个版本官方连续修改了 <code>ViewGroup#dispatchApplyWindowInsets()</code> 的逻辑（具体我们在源码解析篇介绍）。</p>
+<p>如果 app <code>targetSdkVersion &lt; 30</code> ，如果某个节点消费了 Insets，<strong>所有没遍历到的节点都不会</strong>收到 <code>WindowInsets</code> 的分发；</p>
+<p>当 app 运行在 Android 11 以上版本的设备上且 <code>targetSdkVersion &gt;= 30</code>，如果某个节点消费了 Insets，<strong>该节点的所有子节点不会</strong>收到 <code>WindowInsets</code> 分发。<br><img src="https://blog-1251678165.cos.ap-chengdu.myqcloud.com/LfaBdL.jpg" alt="LfaBdL"></p>
+<p>旧版本的分发有一个问题，无法做到两个同级的 View 同时消费 <code>WindowInsets</code>，如下图：<br><img src="https://blog-1251678165.cos.ap-chengdu.myqcloud.com/P8ykcX.jpg" alt="P8ykcX"></p>
+<blockquote>
+<p>我们可以将 Level2-1 和 Level2-2 看成顶部导航和底部导航，按照旧逻辑，当 Level2-1 消费了 <code>WindowInsets</code>，另一个 View 便没机会了。</p>
+</blockquote>
+<h3 id="小结-1"><a href="#小结-1" class="headerlink" title="小结"></a>小结</h3><ul>
+<li>  由于开发者可以将 App 内容绘制到与系统 UI 相交的位置，因此官方为开发者提供了解决视觉冲突的方式，<code>WindowInsets</code></li>
+<li>  开发者可以重写 <code>View#onApplyWindowInsets</code> 或 <code>View#setOnApplyWindowInsetsListener</code> 来根据 WindowInsets 对系统 UI 进行位置避让（对 view 设置 padding 或 margin）。</li>
+<li>  下一节介绍的 <code>fitsSystemWindows</code> 的默认行为也是通过 <code>onApplyWindowInsets</code> 实现的。</li>
+</ul>
+<h1 id="fitsSystemWindows"><a href="#fitsSystemWindows" class="headerlink" title="fitsSystemWindows"></a>fitsSystemWindows</h1><p><img src="https://blog-1251678165.cos.ap-chengdu.myqcloud.com/b98jig.jpg" alt="b98jig"></p>
+<p><code>setFitsSystemWindows</code> 是 View 中 API 14 后加入的方法，对应的 xml 属性是 <code>android:fitsSystemWindows</code></p>
+<p><strong><code>fitsSystemWindows</code> 的默认行为是：通过 padding 为 <code>System bar</code> 预留出空间</strong>。如前文提到的 DecorView 的 LinearLayout，它的 <code>paddingTop</code> 就是 <code>fitsSystemWindows = true</code> 影响的。<br><img src="https://blog-1251678165.cos.ap-chengdu.myqcloud.com/RspJPI.jpg" alt="RspJPI"></p>
+<blockquote>
+<p>默认情况下 DecorView 的子 view 是 inflate <code>screen_simple.xml</code> 得到的。</p>
+</blockquote>
+<p>那么这个 padding 是如何设置的？</p>
+<p><code>View#onApplyWindowInsets()</code> 中会判断 <code>fitsSystemWindows</code> 最终调用到 <code>internalSetPadding()</code> 方法：<br><img src="https://blog-1251678165.cos.ap-chengdu.myqcloud.com/wC8itg.jpg" alt="wC8itg"></p>
+<blockquote>
+<p>📢 注意：<strong>这会使开发者在 xml 中定义的 padding 失效</strong>。</p>
+</blockquote>
+<p><code>fitsSystemWindows</code> 这个 API 另很多开发者迷惑，一个重要原因是很多时候 <code>fitsSystemWindows</code> 并不是使用的默认行为，如 <code>DrawerLayout</code> 和 <code>CoordinatorLayout</code>。</p>
+<h3 id="DrawerLayout"><a href="#DrawerLayout" class="headerlink" title="DrawerLayout"></a>DrawerLayout</h3><p>DrawerLayout <code>fitsSystemWindow = true</code> 时：</p>
+<ul>
+<li>  API &gt; 21 时设置 <code>setSystemUiVisibility(SYSTEM_UI_FLAG_LAYOUT_STABLE | SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)</code></li>
+<li>  <code>onMeasure()</code> 时调用子 view <code>dispatchApplyWindowInsets()</code>（正常父 View 消费 <code>WindowInsets</code> 后子 View 接收不到分发）</li>
+<li>  <code>onDraw()</code> 时调用 <code>setStatusBackground(?android:colorPrimaryDark)</code></li>
+</ul>
+<h2 id="CoordinatorLayout"><a href="#CoordinatorLayout" class="headerlink" title="CoordinatorLayout"></a>CoordinatorLayout</h2><p>CoordinatorLayout <code>fitsSystemWindow = true</code> 时：</p>
+<ul>
+<li>  API &gt; 21 时设置 <code>setSystemUiVisibility(SYSTEM_UI_FLAG_LAYOUT_STABLE | SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)</code></li>
+<li>  根据需要 <code>setStatusBackground</code></li>
+<li>  允许设置 behavior 的子 View 拦截并响应 <code>WindowInsets</code> 的变化</li>
+</ul>
+<h3 id="小结-2"><a href="#小结-2" class="headerlink" title="小结"></a>小结</h3><p>关于 <code>fitsSystemWindows</code>，你必须知道以下几点：</p>
+<ul>
+<li><code>fitsSystemWindows</code> 是深度优先（我们可以将视图树看成一个 N叉树）的，第一个设置 <code>fitsSystemWindows</code> 的 view 会去消费 insets 并影响视觉；</li>
+<li>padding 在 view layout 之前就已经设置了，因此<strong>不要</strong>误认为设置padding 时了解 view 所在的位置</li>
+<li>开发者在 xml 或 view 初始化设置的 padding 会被<strong>覆盖</strong></li>
+<li>  <a href="https://link.juejin.cn/?target=https://developer.android.com/reference/com/google/android/material/appbar/AppBarLayout.html" title="https://developer.android.com/reference/com/google/android/material/appbar/AppBarLayout.html">AppBarLayout</a>，<a href="https://link.juejin.cn/?target=https://developer.android.com/reference/androidx/coordinatorlayout/widget/CoordinatorLayout.html" title="https://developer.android.com/reference/androidx/coordinatorlayout/widget/CoordinatorLayout.html">CoordinatorLayout</a>，<a href="https://link.juejin.cn/?target=https://developer.android.com/reference/androidx/drawerlayout/widget/DrawerLayout.html" title="https://developer.android.com/reference/androidx/drawerlayout/widget/DrawerLayout.html">DrawerLayout</a> 等 view 会自定义 <code>fitsSystemWindows</code> 的行为</li>
+</ul>
+<h2 id="处理-WindowInsets-的最佳实践"><a href="#处理-WindowInsets-的最佳实践" class="headerlink" title="处理 WindowInsets 的最佳实践"></a>处理 WindowInsets 的最佳实践</h2><h3 id="使用-Jetpack-提供的-Compat-API"><a href="#使用-Jetpack-提供的-Compat-API" class="headerlink" title="使用 Jetpack 提供的 Compat API"></a>使用 Jetpack 提供的 Compat API</h3><p>Android Jetpack 组件库中的 <a href="https://link.juejin.cn/?target=https://developer.android.com/jetpack/androidx/releases/core" title="https://developer.android.com/jetpack/androidx/releases/core">androidx.core</a> 提供了大量兼容旧版本的 Compat API，如 <code>ViewCompat</code>，<code>WindowInsetsCompat</code>，<code>WindowInsetsControllerCompat</code> 等等。</p>
+<p>下图是 <code>ViewCompat#getWindowInsetsController</code> 方法，用于获取 <code>WindowInsetsController</code>，同时兼容低版本：<br><img src="https://blog-1251678165.cos.ap-chengdu.myqcloud.com/HyNTRE.jpg" alt="HyNTRE"></p>
+<h3 id="获取WindowInsets"><a href="#获取WindowInsets" class="headerlink" title="获取WindowInsets"></a>获取WindowInsets</h3><p><img src="https://blog-1251678165.cos.ap-chengdu.myqcloud.com/Baeg38.jpg" alt="Baeg38"></p>
+<p>使用 <code>ViewCompat.getRootWindowInsets(view)</code> 获取 <code>WindowInsets</code>。请注意：</p>
+<ul>
+<li>该方法返回分发给视图树的<strong>原始</strong> insets</li>
+<li>insets 只有在 view attached 才是可用的</li>
+<li>  API 20 及以下 <strong>永远</strong> 返回 false</li>
+</ul>
+<h3 id="获取-System-bar-和-软键盘的高度"><a href="#获取-System-bar-和-软键盘的高度" class="headerlink" title="获取 System bar 和 软键盘的高度"></a>获取 System bar 和 软键盘的高度</h3><h4 id="❌-错误用法"><a href="#❌-错误用法" class="headerlink" title="❌ 错误用法"></a>❌ 错误用法</h4><h4 id="🙅🏻‍♀️不要固定-status-bar-的高度"><a href="#🙅🏻‍♀️不要固定-status-bar-的高度" class="headerlink" title="🙅🏻‍♀️不要固定 status bar 的高度"></a>🙅🏻‍♀️不要固定 status bar 的高度</h4><pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">res/values
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dimen</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>status_bar_size<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>25dp<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dimen</span><span class="token punctuation">&gt;</span></span>
+
+res/values-v23
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dimen</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>status_bar_size<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>24dp<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dimen</span><span class="token punctuation">&gt;</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>不同 Android 版本 <code>status bar</code> 的高度是不同的！不同设备也可能定制自己的高度。<br><img src="https://blog-1251678165.cos.ap-chengdu.myqcloud.com/cuO06T.jpg" alt="cuO06T"></p>
+<h4 id="🙅🏻‍♀️读取系统内部资源"><a href="#🙅🏻‍♀️读取系统内部资源" class="headerlink" title="🙅🏻‍♀️读取系统内部资源"></a>🙅🏻‍♀️读取系统内部资源</h4><p>framework 的 <code>dimens.xml</code> 存储了一些列系统内部资源。<br><img src="https://blog-1251678165.cos.ap-chengdu.myqcloud.com/oMnMPK.jpg" alt="oMnMPK"></p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin"><span class="token keyword">val</span> resourceId <span class="token operator">=</span> resources<span class="token punctuation">.</span><span class="token function">getIdentifier</span><span class="token punctuation">(</span><span class="token string-literal singleline"><span class="token string">"status_bar_height"</span></span><span class="token punctuation">,</span> <span class="token string-literal singleline"><span class="token string">"dimen"</span></span><span class="token punctuation">,</span> <span class="token string-literal singleline"><span class="token string">"android"</span></span><span class="token punctuation">)</span>
+<span class="token keyword">return</span> resources<span class="token punctuation">.</span><span class="token function">getDimensionPixelSize</span><span class="token punctuation">(</span>resourceId<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>如果系统内部资源名称变化怎么办？</p>
+<p><strong>「野路子」代码可能有效，但不健壮。</strong></p>
+<h4 id="✅-正确用法"><a href="#✅-正确用法" class="headerlink" title="✅ 正确用法"></a>✅ 正确用法</h4><ol>
+<li> 获取 <code>WindowInsets</code></li>
+<li> 通过 <code>WindowInsets#getInsets(type)</code> 获取 Insets</li>
+<li> 通过 Insets.top 或 Insets.bottom 获取 <code>System bar</code> 高度</li>
+</ol>
+<p>为了兼容旧版本，我们使用 Compat API：</p>
+<ol>
+<li> <code>val windowInsetsCompat = ViewCompat.getRootWindowInsets(view)</code> 获取 WindowInsets</li>
+<li> <code>val insets = windowInsetsCompat?.getInsets(WindowInsetsCompat.Type.statusBars())</code> 获取 Insets</li>
+<li> <code>insets?.top</code> 或 <code>insets?.bottom</code> 获取 <code>System bar</code> 高度</li>
+</ol>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">ViewCompat<span class="token punctuation">.</span><span class="token function">getRootWindowInsets</span><span class="token punctuation">(</span>window<span class="token punctuation">.</span>decorView<span class="token punctuation">)</span><span class="token operator">?</span><span class="token punctuation">.</span><span class="token function">getInsets</span><span class="token punctuation">(</span>WindowInsetsCompat<span class="token punctuation">.</span>Type<span class="token punctuation">.</span><span class="token function">statusBars</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">?</span><span class="token punctuation">.</span>top
+ViewCompat<span class="token punctuation">.</span><span class="token function">getRootWindowInsets</span><span class="token punctuation">(</span>window<span class="token punctuation">.</span>decorView<span class="token punctuation">)</span><span class="token operator">?</span><span class="token punctuation">.</span><span class="token function">getInsets</span><span class="token punctuation">(</span>WindowInsetsCompat<span class="token punctuation">.</span>Type<span class="token punctuation">.</span><span class="token function">statusBars</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">?</span><span class="token punctuation">.</span>bottom<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>当 <code>System bar</code> 隐藏时 getInsets() 获取的高度为 0，如果想在隐藏状态时也能获取高度，可以使用 <code>getInsetsIgnoringVisibility()</code> 方法</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">ViewCompat<span class="token punctuation">.</span><span class="token function">getRootWindowInsets</span><span class="token punctuation">(</span>window<span class="token punctuation">.</span>decorView<span class="token punctuation">)</span><span class="token operator">?</span><span class="token punctuation">.</span><span class="token function">getInsetsIgnoringVisibility</span><span class="token punctuation">(</span>WindowInsetsCompat<span class="token punctuation">.</span>Type<span class="token punctuation">.</span><span class="token function">statusBars</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">?</span><span class="token punctuation">.</span>top
+ViewCompat<span class="token punctuation">.</span><span class="token function">getRootWindowInsets</span><span class="token punctuation">(</span>window<span class="token punctuation">.</span>decorView<span class="token punctuation">)</span><span class="token operator">?</span><span class="token punctuation">.</span><span class="token function">getInsetsIgnoringVisibility</span><span class="token punctuation">(</span>WindowInsetsCompat<span class="token punctuation">.</span>Type<span class="token punctuation">.</span><span class="token function">statusBars</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">?</span><span class="token punctuation">.</span>bottom<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e25896e1c9984e8186f5c7a24bec910c~tplv-k3u1fbpfcp-watermark.awebp"></p>
+<h3 id="WindowInsetsController"><a href="#WindowInsetsController" class="headerlink" title="WindowInsetsController"></a>WindowInsetsController</h3><p>Android 30 引入了 <code>WindowInsetsController</code> 来控制 <code>WindowInsets</code>，主要功能包括：</p>
+<ul>
+<li>  显示/隐藏 <code>System bar</code></li>
+<li>  设置 <code>System bar</code> 前景（如状态栏的文字图标）是亮色还是暗色</li>
+<li>  逐帧控制 insets 动画，例如可以让软键盘弹出得更丝滑</li>
+</ul>
+<h4 id="显示隐藏-System-bar"><a href="#显示隐藏-System-bar" class="headerlink" title="显示隐藏 System bar"></a>显示隐藏 System bar</h4><pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin"><span class="token comment">// 状态栏是否可见</span>
+ViewCompat<span class="token punctuation">.</span><span class="token function">getRootWindowInsets</span><span class="token punctuation">(</span>view<span class="token punctuation">)</span><span class="token operator">?</span><span class="token punctuation">.</span><span class="token function">isVisible</span><span class="token punctuation">(</span>WindowInsetsCompat<span class="token punctuation">.</span>Type<span class="token punctuation">.</span><span class="token function">statusBars</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">?:</span> <span class="token boolean">true</span>
+<span class="token comment">// 显示状态栏</span>
+ViewCompat<span class="token punctuation">.</span><span class="token function">getWindowInsetsController</span><span class="token punctuation">(</span>view<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">show</span><span class="token punctuation">(</span>WindowInsetsCompat<span class="token punctuation">.</span>Type<span class="token punctuation">.</span><span class="token function">statusBars</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment">// 隐藏状态栏</span>
+ViewCompat<span class="token punctuation">.</span><span class="token function">getWindowInsetsController</span><span class="token punctuation">(</span>view<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">hide</span><span class="token punctuation">(</span>WindowInsetsCompat<span class="token punctuation">.</span>Type<span class="token punctuation">.</span><span class="token function">statusBars</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token comment">// 导航栏是否可见</span>
+ViewCompat<span class="token punctuation">.</span><span class="token function">getRootWindowInsets</span><span class="token punctuation">(</span>view<span class="token punctuation">)</span><span class="token operator">?</span><span class="token punctuation">.</span><span class="token function">isVisible</span><span class="token punctuation">(</span>WindowInsetsCompat<span class="token punctuation">.</span>Type<span class="token punctuation">.</span><span class="token function">navigationBars</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">?:</span> <span class="token boolean">true</span>
+<span class="token comment">// 显示导航栏</span>
+ViewCompat<span class="token punctuation">.</span><span class="token function">getWindowInsetsController</span><span class="token punctuation">(</span>view<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">show</span><span class="token punctuation">(</span>WindowInsetsCompat<span class="token punctuation">.</span>Type<span class="token punctuation">.</span><span class="token function">navigationBars</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment">// 隐藏导航栏</span>
+ViewCompat<span class="token punctuation">.</span><span class="token function">getWindowInsetsController</span><span class="token punctuation">(</span>view<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">hide</span><span class="token punctuation">(</span>WindowInsetsCompat<span class="token punctuation">.</span>Type<span class="token punctuation">.</span><span class="token function">navigationBars</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token comment">// 软键盘是否可见</span>
+ViewCompat<span class="token punctuation">.</span><span class="token function">getRootWindowInsets</span><span class="token punctuation">(</span>view<span class="token punctuation">)</span><span class="token operator">?</span><span class="token punctuation">.</span><span class="token function">isVisible</span><span class="token punctuation">(</span>WindowInsetsCompat<span class="token punctuation">.</span>Type<span class="token punctuation">.</span><span class="token function">ime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">?:</span> <span class="token boolean">false</span>
+<span class="token comment">// 显示软键盘</span>
+ViewCompat<span class="token punctuation">.</span><span class="token function">getWindowInsetsController</span><span class="token punctuation">(</span>view<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">show</span><span class="token punctuation">(</span>WindowInsetsCompat<span class="token punctuation">.</span>Type<span class="token punctuation">.</span><span class="token function">ime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment">// 隐藏软键盘</span>
+ViewCompat<span class="token punctuation">.</span><span class="token function">getWindowInsetsController</span><span class="token punctuation">(</span>view<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">hide</span><span class="token punctuation">(</span>WindowInsetsCompat<span class="token punctuation">.</span>Type<span class="token punctuation">.</span><span class="token function">ime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/cdbb9ed084fa4b29a36730da2bec9f12~tplv-k3u1fbpfcp-watermark.awebp"></p>
+<h4 id="设置-System-bar-前景亮色-暗色"><a href="#设置-System-bar-前景亮色-暗色" class="headerlink" title="设置 System bar 前景亮色/暗色"></a>设置 System bar 前景亮色/暗色</h4><pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">ViewCompat<span class="token punctuation">.</span><span class="token function">getWindowInsetsController</span><span class="token punctuation">(</span>view<span class="token punctuation">)</span><span class="token punctuation">.</span>isAppearanceLightStatusBars <span class="token operator">=</span> isLight
+ViewCompat<span class="token punctuation">.</span><span class="token function">getWindowInsetsController</span><span class="token punctuation">(</span>view<span class="token punctuation">)</span><span class="token punctuation">.</span>isAppearanceLightNavigationBars <span class="token operator">=</span> isLight<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h2 id="适配-edge-to-edge"><a href="#适配-edge-to-edge" class="headerlink" title="适配 edge-to-edge"></a>适配 edge-to-edge</h2><p>何为 edge-to-edge？如下图，即应用内容的绘制范围从顶部状态栏下方开始，延伸至底部导航栏上方：<br><img src="https://developer.android.com/images/guide/navigation/e2e-intro.gif"></p>
+<p>关于 edge-to-edge 的适配，<a href="https://link.juejin.cn/?target=https://developer.android.com/training/gestures/edge-to-edge" title="https://developer.android.com/training/gestures/edge-to-edge">官方文档</a> 写得很完整，主要分三步：</p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin"><span class="token comment">// 1. 使内容区域全屏</span>
+WindowCompat<span class="token punctuation">.</span><span class="token function">setDecorFitsSystemWindows</span><span class="token punctuation">(</span>window<span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">)</span>
+
+<span class="token comment">// 2. 设置 System bar 透明</span>
+window<span class="token punctuation">.</span>statusBarColor <span class="token operator">=</span> Color<span class="token punctuation">.</span>TRANSPARENT
+window<span class="token punctuation">.</span>navigationBarColor <span class="token operator">=</span> Color<span class="token punctuation">.</span>TRANSPARENT
+
+<span class="token comment">// 3. 可能出现视觉冲突的 view 处理 insets</span>
+ViewCompat<span class="token punctuation">.</span><span class="token function">setOnApplyWindowInsetsListener</span><span class="token punctuation">(</span>view<span class="token punctuation">)</span> <span class="token punctuation">{</span> view<span class="token punctuation">,</span> windowInsets <span class="token operator">-&gt;</span>
+  <span class="token keyword">val</span> insets <span class="token operator">=</span> windowInsets<span class="token punctuation">.</span><span class="token function">getInsets</span><span class="token punctuation">(</span>WindowInsetsCompat<span class="token punctuation">.</span>Type<span class="token punctuation">.</span><span class="token function">systemBars</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token comment">// 此处更改的 margin，也可设置 padding，视情况而定</span>
+  view<span class="token punctuation">.</span>updateLayoutParams<span class="token operator">&lt;</span>MarginLayoutParams<span class="token operator">&gt;</span> <span class="token punctuation">{</span>
+      topMargin <span class="token operator">=</span> insets<span class="token punctuation">.</span>top
+      leftMargin <span class="token operator">=</span> insets<span class="token punctuation">.</span>left
+      bottomMargin <span class="token operator">=</span> insets<span class="token punctuation">.</span>bottom
+      rightMargin <span class="token operator">=</span> insets<span class="token punctuation">.</span>right
+  <span class="token punctuation">}</span>
+  WindowInsetsCompat<span class="token punctuation">.</span>CONSUMED
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p>注意：<strong>处理 insets 时要保证计算操作有幂等性</strong>，即多次进行该计算所得到的结果应该相同，否则 margin/padding 会越来越大！</p>
+<p>处理 insets 也可以通过 重写 <code>View#onApplyWindowInsets</code> 来操作。</p>
+</blockquote>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ul>
+<li>  随着 Android 的不断迭代，开发者可以更充分地利用屏幕空间，能够将内容绘制在系统 UI 后面；</li>
+<li>  Android 使用 Insets 来描述系统 UI 与屏幕相交的区域，开发者可以使用 <code>fitsSystemWindows</code> 和 <code>WindowInsets</code> 来处理视觉和手势冲突；</li>
+<li>  <code>WindowInsets</code> 的分发根据 <code>targetSDKVersion</code> 的不同而略有差别；</li>
+<li>  <code>fitsSystemWindows</code> 的默认行为是：通过 padding 为 <code>System bar</code> 预留出空间，本质也是利用 WindowInsets 处理视觉冲突；</li>
+<li>  一些自定义 view 如 DrawerLayout 会更改 <code>fitsSystemWindows</code> 的默认行为；</li>
+<li>  处理 <code>WindowInsets</code> 可以使用 Jetpack <code>androidx.core</code> 提供的一些列 Compat 类；</li>
+<li>  牢记获取 <code>Status bar</code> 高度的正确姿势，并避免错误用法；</li>
+<li>  适配 edge-to-edge 以给用户更好的使用体验</li>
+</ul>
+<h1 id="推荐阅读和参考资源"><a href="#推荐阅读和参考资源" class="headerlink" title="推荐阅读和参考资源"></a>推荐阅读和参考资源</h1><ul>
+<li>  <a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904001721335815" title="https://juejin.cn/post/6844904001721335815">开启全面屏体验 | 手势导航 (一)</a></li>
+<li>  <a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904006343458830" title="https://juejin.cn/post/6844904006343458830">处理视觉冲突 | 手势导航 (二)</a></li>
+<li>  <a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904021367472142" title="https://juejin.cn/post/6844904021367472142">如何处理手势冲突 | 手势导航连载 (三)</a></li>
+<li>  <a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904034281717768" title="https://juejin.cn/post/6844904034281717768">沉浸模式 | 手势导航连载 (四)</a></li>
+<li>  <a href="https://link.juejin.cn/?target=https://medium.com/androiddevelopers/why-would-i-want-to-fitssystemwindows-4e26d9ce1eec" title="https://medium.com/androiddevelopers/why-would-i-want-to-fitssystemwindows-4e26d9ce1eec">Why would I want to fitsSystemWindows?</a></li>
+<li>  <a href="https://link.juejin.cn/?target=https://medium.com/androiddevelopers/windowinsets-listeners-to-layouts-8f9ccc8fa4d1" title="https://medium.com/androiddevelopers/windowinsets-listeners-to-layouts-8f9ccc8fa4d1">WindowInsets — listeners to layouts</a></li>
+<li>  <a href="https://link.juejin.cn/?target=https://www.bilibili.com/video/BV11U4y1T7D1" title="https://www.bilibili.com/video/BV11U4y1T7D1">Becoming a master window fitter🔧</a></li>
+</ul>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/7038422081528135687">Android Detail：Window 篇—— WindowInsets 与 fitsSystemWindow</a></p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Weikeet</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://www.blog.weikeet.cc/20220325/android-windowinsets/">https://www.blog.weikeet.cc/20220325/android-windowinsets/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">Weikeet</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/Android/">
+                                    <span class="chip bg-color">Android</span>
+                                </a>
+                            
+                                <a href="/tags/WindowInsets/">
+                                    <span class="chip bg-color">WindowInsets</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/medias/reward/alipay.png" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+        <style>
+    .valine-card {
+        margin: 1.5rem auto;
+    }
+
+    .valine-card .card-content {
+        padding: 20px 20px 5px 20px;
+    }
+
+    #vcomments textarea {
+        box-sizing: border-box;
+        background: url("/medias/comment_bg.png") 100% 100% no-repeat;
+    }
+
+    #vcomments p {
+        margin: 2px 2px 10px;
+        font-size: 1.05rem;
+        line-height: 1.78rem;
+    }
+
+    #vcomments blockquote p {
+        text-indent: 0.2rem;
+    }
+
+    #vcomments a {
+        padding: 0 2px;
+        color: #4cbf30;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    #vcomments img {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+    }
+
+    #vcomments ol li {
+        list-style-type: decimal;
+    }
+
+    #vcomments ol,
+    ul {
+        display: block;
+        padding-left: 2em;
+        word-spacing: 0.05rem;
+    }
+
+    #vcomments ul li,
+    ol li {
+        display: list-item;
+        line-height: 1.8rem;
+        font-size: 1rem;
+    }
+
+    #vcomments ul li {
+        list-style-type: disc;
+    }
+
+    #vcomments ul ul li {
+        list-style-type: circle;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    #vcomments table, th, td {
+        border: 0;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments h1 {
+        font-size: 1.85rem;
+        font-weight: bold;
+        line-height: 2.2rem;
+    }
+
+    #vcomments h2 {
+        font-size: 1.65rem;
+        font-weight: bold;
+        line-height: 1.9rem;
+    }
+
+    #vcomments h3 {
+        font-size: 1.45rem;
+        font-weight: bold;
+        line-height: 1.7rem;
+    }
+
+    #vcomments h4 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    #vcomments h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.4rem;
+    }
+
+    #vcomments h6 {
+        font-size: 1rem;
+        line-height: 1.3rem;
+    }
+
+    #vcomments p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    #vcomments hr {
+        margin: 12px 0;
+        border: 0;
+        border-top: 1px solid #ccc;
+    }
+
+    #vcomments blockquote {
+        margin: 15px 0;
+        border-left: 5px solid #42b983;
+        padding: 1rem 0.8rem 0.3rem 0.8rem;
+        color: #666;
+        background-color: rgba(66, 185, 131, .1);
+    }
+
+    #vcomments pre {
+        font-family: monospace, monospace;
+        padding: 1.2em;
+        margin: .5em 0;
+        background: #272822;
+        overflow: auto;
+        border-radius: 0.3em;
+        tab-size: 4;
+    }
+
+    #vcomments code {
+        font-family: monospace, monospace;
+        padding: 1px 3px;
+        font-size: 0.92rem;
+        color: #e96900;
+        background-color: #f8f8f8;
+        border-radius: 2px;
+    }
+
+    #vcomments pre code {
+        font-family: monospace, monospace;
+        padding: 0;
+        color: #e8eaf6;
+        background-color: #272822;
+    }
+
+    #vcomments pre[class*="language-"] {
+        padding: 1.2em;
+        margin: .5em 0;
+    }
+
+    #vcomments code[class*="language-"],
+    pre[class*="language-"] {
+        color: #e8eaf6;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+
+    #vcomments b,
+    strong {
+        font-weight: bold;
+    }
+
+    #vcomments dfn {
+        font-style: italic;
+    }
+
+    #vcomments small {
+        font-size: 85%;
+    }
+
+    #vcomments cite {
+        font-style: normal;
+    }
+
+    #vcomments mark {
+        background-color: #fcf8e3;
+        padding: .2em;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+</style>
+
+<div class="card valine-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="vcomments" class="card-content" style="display: grid">
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/valine/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/valine/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: 'orsSeN9tLirrMORe4CklaXEN-gzGzoHsz',
+        appKey: 'wOCnGVsLjb2wsCTDhhMvAPCr',
+        notify: 'false' === 'true',
+        verify: 'false' === 'true',
+        visitor: 'true' === 'true',
+        avatar: 'mm',
+        pageSize: '10',
+        lang: 'zh-cn',
+        placeholder: 'just go go'
+    });
+</script>
+
+<!--酷Q推送-->
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/20220620/android-softkeyboard/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/medias/featureimages/163536_70858371.jpg" class="responsive-img" alt="Android 软键盘分析和最佳实践">
+                        
+                        <span class="card-title">Android 软键盘分析和最佳实践</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-06-20
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Weikeet
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Android/">
+                        <span class="chip bg-color">Android</span>
+                    </a>
+                    
+                    <a href="/tags/WindowInsets/">
+                        <span class="chip bg-color">WindowInsets</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/20210809/android-smali-grammary/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/medias/featureimages/73152_64218491_3.png" class="responsive-img" alt="Android 逆向之 Smali 语法">
+                        
+                        <span class="card-title">Android 逆向之 Smali 语法</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-08-09
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Weikeet
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Android/">
+                        <span class="chip bg-color">Android</span>
+                    </a>
+                    
+                    <a href="/tags/Reverse/">
+                        <span class="chip bg-color">Reverse</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2015-2024</span>
+            
+            <span id="year">2015</span>
+            <a href="/about" target="_blank">Weikeet</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+                <span id="sitetime"> Loading ...</span>
+                <script>
+                    var calcSiteTime = function () {
+                        var seconds = 1000;
+                        var minutes = seconds * 60;
+                        var hours = minutes * 60;
+                        var days = hours * 24;
+                        var years = days * 365;
+                        var today = new Date();
+                        var startYear = "2015";
+                        var startMonth = "11";
+                        var startDate = "24";
+                        var startHour = "0";
+                        var startMinute = "0";
+                        var startSecond = "0";
+                        var todayYear = today.getFullYear();
+                        var todayMonth = today.getMonth() + 1;
+                        var todayDate = today.getDate();
+                        var todayHour = today.getHours();
+                        var todayMinute = today.getMinutes();
+                        var todaySecond = today.getSeconds();
+                        var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                        var diff = t2 - t1;
+                        var diffYears = Math.floor(diff / years);
+                        var diffDays = Math.floor((diff / days) - diffYears * 365);
+
+                        // 区分是否有年份.
+                        var language = 'zh-CN';
+                        if (startYear === String(todayYear)) {
+                            document.getElementById("year").innerHTML = todayYear;
+                            var daysTip = 'This site has been running for ' + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                daysTip = '本站已运行 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                daysTip = '本站已運行 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = daysTip;
+                        } else {
+                            document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                            var yearsAndDaysTip = 'This site has been running for ' + diffYears + ' years and '
+                                + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                yearsAndDaysTip = '本站已运行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                yearsAndDaysTip = '本站已運行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = yearsAndDaysTip;
+                        }
+                    }
+
+                    calcSiteTime();
+                </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/Weikeet" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:Weikeet@foxmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1570682285" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1570682285" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/materialize/materialize.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/aos/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/js/matery.js"></script>
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    
+    <script async src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="https://cdn.jsdelivr.net/gh/Weikeet/Weikeet.github.io/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
